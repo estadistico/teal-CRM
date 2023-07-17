@@ -12,8 +12,8 @@ def dashboard(request):
     orders = Order.objects.all()
     orders_label = set()
     for o in orders:
-        orders_label.add(o.product)
-    orders_group = list(Order.objects.values('product').annotate(dcount=Count('product')))
+        orders_label.add(o.profe_asignado)
+    orders_group = list(Order.objects.values('profe_asignado').annotate(dcount=Count('profe_asignado')))
     og = []
     for o in orders_group:
         og.append(o["dcount"])
@@ -70,8 +70,7 @@ def contacts(request):
     if req is not None:
         query = request.GET.get('search')
         customers = Customer.objects.filter(Q(name__icontains=query) | Q(email__icontains=query)
-        | Q(phone__icontains=query)
-        | Q(address__icontains=query))
+        | Q(phone__icontains=query))
     else:
         customers = Customer.objects.all()
     return render(request,'crm/contacts.html',{'customers':customers})

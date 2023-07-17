@@ -22,10 +22,11 @@
   <table class="my-table w-100 text-center">
     <thead>
       <tr class="text-center">
-        <th scope="col">Name</th>
-        <th scope="col">Phone</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Pais</th>
+        <th scope="col">Canal</th>
+        <th scope="col">Telefono</th>
         <th scope="col">Email</th>
-        <th scope="col">Address</th>
         <th scope="col">Action</th>
       </tr>
     </thead>
@@ -34,9 +35,10 @@
       <tr>
         </td>
         <td>{{ c.name }}</td>
+        <td>{{ c.pais }}</td>
+        <td>{{ c.canal }}</td>
         <td>{{ c.phone }}</td>
         <td>{{ c.email }}</td>
-        <td class="text-break">{{ c.address }}</td>
         <td>
           <a class="btn btn-sm btn-outline-dark" href="{% url 'update_contact' c.id %}"><svg width="1em" height="1em"
               viewBox="0 0 16 16" class="bi bi-pencil" fill="currentColor" xmlns="http://www.w3.org/2000/svg">

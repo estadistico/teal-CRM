@@ -1,7 +1,7 @@
 {% extends 'crm/main.html' %}
 {% block content %}
 <div class="d-flex justify-content-end mb-2">
-  <a class="btn btn-warning" href="{% url 'create_product' %}">+ Product</a>
+  <a class="btn btn-warning" href="{% url 'create_product' %}">+ Profe</a>
 </div>
 <form method="get" class="form-inline">
   {{pf.form}}
@@ -14,12 +14,11 @@
     <thead>
       <tr class="text-center">
         <th scope="col">#</th>
-        <th scope="col">Product</th>
-        <th scope="col">Vendor</th>
-        <th scope="col">Date</th>
-        <th scope="col">Discount</th>
-        <th scope="col">Cost</th>
-        <th scope="col">Action</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Pais</th>
+        <th scope="col">Fecha</th>
+        <th scope="col">especialidad</th>
+        <th scope="col">Accion</th>
       </tr>
     </thead>
     <tbody>
@@ -27,10 +26,9 @@
       <tr>
         <th scope="row">{{ p.pk }}</th>
         <td>{{ p.name }}</td>
-        <td>{{ p.vendor }}</td>
+        <td>{{ p.pais }}</td>
         <td>{{ p.date_created | date:"d-m-Y h:i A" }}</td>
-        <td>{{ p.discount }}</td>
-        <td>{{ p.cost }}</td>
+        <td>{{ p.especialidad }}</td>
         <td>
           <a class="btn btn-sm btn-outline-dark" href="{% url 'update_product' p.id %}"><svg width="1em" height="1em"
               viewBox="0 0 16 16" class="bi bi-pencil" fill="currentColor" xmlns="http://www.w3.org/2000/svg">

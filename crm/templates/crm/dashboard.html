@@ -95,12 +95,12 @@
         <th colspan='9' scope="col">Recent Orders</th>
       </tr>
       <tr class="text-center">
-        <th>Product</th>
+        <th>Cliente</th>
         <th></th>
-        <th>Vendor</th>
+        <th>tipo de servicio</th>
         <th></th>
-        <th>Customer</th>
-        <th>Date</th>
+        <th>Profesor</th>
+        <th>Fecha creacion</th>
         <th></th>
         <th>Status</th>
       </tr>
@@ -108,11 +108,11 @@
     <tbody>
       {% for o in recent_orders %}
       <tr>
-        <th scope="row">{{o.product.name}}</th>
+        <th scope="row">{{o.customer.name}}</th>
         <td></td>
-        <td>{{o.product.vendor}}</td>
+        <td>{{o.tipo_servicio}}</td>
         <td></td>
-        <td>{{o.customer.name}}</td>
+        <td>{{o.profe_asignado.name}}</td>
         <td>{{o.date_created|date:"d-M h:i A"}}</td>
         <td></td>
         <td>{{o.status}}</td>
