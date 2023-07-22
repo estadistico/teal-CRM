@@ -1,0 +1,694 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <title>CRM</title>
+
+    <style></style>
+</head>
+
+<body>
+    <div id="wrapper">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="{% url 'home' %}" class="lead text-center mr-4">
+                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-calendar3" fill="currentColor"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z" />
+                            <path fill-rule="evenodd"
+                                d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
+                        </svg>
+                        Tuprofeestadistica</a>
+                </li>
+                <li>
+                    <a href="{% url 'home' %}">Dashboard</a>
+                </li>
+                <li>
+                    <a href="{% url 'products' %}">Profesores</a>
+                </li>
+                <li>
+                    <a href="{% url 'orders' %}">Orders</a>
+                </li>
+                <li>
+                    <a href="{% url 'contacts' %}">Clientes</a>
+                </li>
+                <li>
+                    <a href="{% url 'task' %}">Notas</a>
+                </li>
+                <li>
+                    <a href="{% url 'signout' %}">Salir</a>
+                </li>
+
+            </ul>
+        </div>
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        {% block content %} {% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
+
+########################################
+
+{% extends 'crm/main.html' %}
+{% block content %}
+<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js'></script>
+
+<div class="container card">
+  <div class="row text-center text-light card-body bg-light">
+    <div class="col-6">
+      <canvas id="myChart" height="200px"></canvas>
+      <script>
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+          type: 'pie',
+          data: {
+            labels: [{% for o in orders_label %}'{{o}}',{% endfor %}],
+        datasets: [{
+          data: [{% for p in og %}{{ p }}, {% endfor %}],
+          backgroundColor: [
+            'rgb(255, 99, 132)',
+            'rgb(54, 162, 235)',
+            'rgb(255, 206, 86)',
+            'rgb(74, 225, 136)',
+            'rgb(153, 102, 255)',
+            'rgb(255, 159, 64)'
+          ],
+            borderColor: [
+              'rgb(255, 99, 132)',
+              'rgb(54, 162, 235)',
+              'rgb(255, 206, 86)',
+              'rgb(74, 225, 136)',
+              'rgb(153, 102, 255)',
+              'rgb(255, 159, 64)'
+            ],
+              borderWidth: 1
+        }]
+    },
+        options: {
+          "responsive": true,
+            "maintainAspectRatio": false,
+              legend: {
+            display: false,
+        }
+        }
+});
+      </script>
+    </div>
+    <div class="col-6">
+      <canvas id="myChart2" height="200px"></canvas>
+      <script>
+        var ctx = document.getElementById('myChart2').getContext('2d');
+        var myChart2 = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: [{% for o in orders_label %}'{{o}}',{% endfor %}],
+        datasets: [{
+          data: [{% for p in og %} {{ p }}, {% endfor %}],
+          backgroundColor: [
+            'rgb(255, 99, 132)',
+            'rgb(54, 162, 235)',
+            'rgb(255, 206, 86)',
+            'rgb(74, 225, 136)',
+            'rgb(153, 102, 255)',
+            'rgb(255, 159, 64)'
+          ],
+            borderColor: [
+              'rgb(255, 99, 132)',
+              'rgb(54, 162, 235)',
+              'rgb(255, 206, 86)',
+              'rgb(74, 225, 136)',
+              'rgb(153, 102, 255)',
+              'rgb(255, 159, 64)'
+            ],
+              borderWidth: 1
+        }]
+    },
+        options: {
+          "responsive": true,
+            "maintainAspectRatio": false,
+              legend: {
+            display: false,
+            
+        }
+        }
+});
+      </script>
+    </div>
+  </div>
+</div>
+
+<div class="text-center justify-content-md-center mt-3">
+
+  <table class="my-table w-100">
+    <thead>
+
+      <tr>
+        <th colspan='9' scope="col">Recent Orders</th>
+      </tr>
+      <tr class="text-center">
+        <th>Cliente</th>
+        <th></th>
+        <th>tipo de servicio</th>
+        <th></th>
+        <th>Profesor</th>
+        <th>Fecha creacion</th>
+        <th></th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for o in recent_orders %}
+      <tr>
+        <th scope="row">{{o.customer.name}}</th>
+        <td></td>
+        <td>{{o.tipo_servicio}}</td>
+        <td></td>
+        <td>{{o.profe_asignado.name}}</td>
+        <td>{{o.date_created|date:"d-M h:i A"}}</td>
+        <td></td>
+        <td>{{o.status}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+</div>
+
+{% endblock content %}
+
+######## dashboard.html fecha_final
+{% extends 'crm/main.html' %}
+{% block content %}
+
+<div class="container">
+  <div class="row mt-3">
+    <div class="col-12 text-center">
+      <h3>Metricas desde el 01 de {{ Fecha_mes_actual|date:"F" }} hasta el {{ Fecha_mes_actual|date:"d F Y" }}</h3>
+    </div>
+  </div>
+  <div class="row">
+    <!-- Tarjeta: Total de Orders durante el mes actual -->
+    <div class="col-md-3 mt-3">
+      <div class="card bg-primary text-light">
+        <div class="card-body">
+          <h5 class="card-title">Total tareas</h5>
+          <p class="card-text text-center align-middle" >{{ total_orders_mes_actual }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tarjeta: Total de Orders por entregar hoy y fecha posterior -->
+    <div class="col-md-3 mt-3">
+      <div class="card bg-info text-light">
+        <div class="card-body">
+          <h5 class="card-title">Tareas x entregar</h5>
+          <p class="card-text text-center align-middle">{{ total_orders_por_entregar }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tarjeta: Total de ingresos durante el mes actual -->
+    <div class="col-md-3 mt-3">
+      <div class="card bg-success text-light">
+        <div class="card-body">
+          <h5 class="card-title">Ingresos Total</h5>
+          <p class="card-text text-center align-middle">{{ total_ingresos_mes_actual }}$</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tarjeta: Total de ingreso de "Tuprofeestadistica" -->
+    <div class="col-md-3 mt-3">
+      <div class="card bg-success text-light">
+        <div class="card-body">
+          <h5 class="card-title">Ingreso Tuprofe</h5>
+          <p class="card-text text-center align-middle" >{{ total_ingresos_tuprofeestadistica }}$</p>
+        </div>
+      </div>
+    </div>
+
+    
+  </div>
+
+<div class="text-center justify-content-md-center mt-3">
+
+  <table class="my-table w-100">
+    <thead>
+
+      <tr>
+        <th colspan='9' scope="col">Recent Orders</th>
+      </tr>
+      <tr class="text-center">
+        <th>Cliente</th>
+        <th></th>
+        <th>tipo de servicio</th>
+        <th></th>
+        <th>Profesor</th>
+        <th>Fecha creacion</th>
+        <th></th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for o in recent_orders %}
+      <tr>
+        <th scope="row">{{o.customer.name}}</th>
+        <td></td>
+        <td>{{o.tipo_servicio}}</td>
+        <td></td>
+        <td>{{o.profe_asignado.name}}</td>
+        <td>{{o.date_created|date:"d-M h:i A"}}</td>
+        <td></td>
+        <td>{{o.status}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+</div>
+
+{% endblock content %}
+
+################################
+def nomina(request):
+    # Obtener la fecha actual y la fecha de hace una semana
+    today = timezone.now()
+    last_week = today - timezone.timedelta(days=7)
+
+    # Obtener todas las órdenes no pagadas de la última semana
+    orders = Order.objects.filter(se_le_pago=False, date_created__gte=last_week)
+
+    # Crear un diccionario para almacenar el total a cobrar por cada profesor
+    total_por_profesor = {}
+
+    ## Calcular el total a cobrar para cada profesor y el monto en moneda local
+    for order in orders:
+        profe_asignado = order.profe_asignado
+        if profe_asignado not in total_por_profesor:
+            total_por_profesor[profe_asignado] = {
+                'total': Decimal('0'),
+                'tipo_cambio': Decimal('0'),
+                'monto_local': Decimal('0'),
+            }
+            
+
+        total_por_profesor[profe_asignado]['total'] += order.cost_profe
+
+        # Obtener el tipo de cambio para el país del profesor y la fecha actual
+        tipo_cambio_obj = TipoCambio.objects.filter(pais=profe_asignado.pais, date_created__lte=today).latest('date_created')
+        tipo_cambio = tipo_cambio_obj.tipo_cambio
+        #monto_local =  order.cost_profe * tipo_cambio
+        total_por_profesor[profe_asignado]['tipo_cambio'] = tipo_cambio
+        total_por_profesor[profe_asignado]['monto_local'] = total_por_profesor[profe_asignado]['total'] * tipo_cambio
+
+        # Ajustar la representación de los valores para mostrar solo dos decimales si es necesario
+        total_por_profesor[profe_asignado]['total'] = total_por_profesor[profe_asignado]['total'].quantize(Decimal('0.01'), rounding=ROUND_DOWN)
+        total_por_profesor[profe_asignado]['monto_local'] = total_por_profesor[profe_asignado]['monto_local'].quantize(Decimal('0.01'), rounding=ROUND_DOWN)
+
+
+
+        #total_por_profesor[profe_asignado]['monto_local'] += monto_local
+
+    orders_por_profesor = {}
+
+    for profe in total_por_profesor.keys():
+        orders_por_profesor[profe] = Order.objects.filter(profe_asignado=profe, date_created__range=(last_week, today))
+
+     # Obtener el tipo de cambio actual para mostrarlo en el formulario
+    tipo_cambio_actual =TipoCambio.objects.filter(date_created__lte=today).latest('date_created')
+
+    # Renderizar la plantilla con la información de la nómina
+    context = {
+        'total_por_profesor': total_por_profesor,
+        'today': today,
+        'last_week': last_week,
+        'orders_por_profesor': orders_por_profesor,
+        'tipo_cambio_actual': tipo_cambio_actual,
+    }
+    return render(request, 'crm/nomina.html', context)
+    
+    ##### nomina.html ###################
+
+    {% extends 'crm/main.html' %}
+
+{% block content %}
+
+<h1>Nómina de profesores</h1>
+
+<p>Última semana: {{ last_week|date:"d/m/Y" }} - {{ today|date:"d/m/Y" }}</p>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Profesor</th>
+      <th scope="col">Total a cobrar (USD)</th>
+      <th scope="col">Tipo de cambio</th>    
+      <th scope="col">Total a cobrar (Bs)</th>
+      <th scope="col">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for profe, total in total_por_profesor.items %}
+    <tr>
+      <td>{{ profe.name }}</td>
+      <td>{{ total.total|floatformat:"1" }}$</td>
+      <td>{{ tipo_cambio_actual.tipo_cambio|floatformat:"1" }}Bs</td>
+      
+      <td>{{ total.monto_local|floatformat:"1" }}BS</td>
+      <td>
+        <a href="{% url 'pagar_nomina' profe.id last_week|date:'Y-m-d' today|date:'Y-m-d' %}" class="btn btn-primary">Marcar Pagado</a>
+        <button class="btn btn-info" data-toggle="modal" data-target="#orderModal{{ profe.id }}">Mostrar Detalle</button>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% for profe, orders in orders_por_profesor.items %}
+  <div class="modal fade" id="orderModal{{ profe.id }}" tabindex="-1" role="dialog" aria-labelledby="orderModalLabel{{ profe.id }}" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="orderModalLabel{{ profe.id }}">Detalle de órdenes de {{ profe.name }}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">id</th>
+                <th scope="col">cliente</th>
+                <th scope="col">Fecha de entrega</th>
+                <th scope="col">Tipo de servicio</th>
+                <th scope="col">Total usd</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for order in orders %}
+               {% if not order.se_le_pago %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ order.customer.name}}</td>
+                <td>{{ order.fecha_entrega }}</td>
+                <td>{{ order.tipo_servicio }}</td>
+                <td>{{ order.cost_profe|floatformat:"1" }}$</td>
+              </tr>
+               {% endif %}
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+
+{% endblock %}
+
+################
+
+Queda asi el view y modelo
+views  
+def enviar_mensaje_whatsapp(request, phone, tipo_servicio, fecha_entrega):
+    account_sid = 'AC41076cd199a80e19608f601546791443'
+    auth_token = 'b2da866f370c829d812f887d14953934'
+    client = Client(account_sid, auth_token)
+
+    # Consultar el nombre del profesor a partir del teléfono
+    try:
+        profe = Product.objects.get(phone=phone)
+        nombre_profesor = profe.name
+    except Product.DoesNotExist:
+        nombre_profesor = 'Profesor desconocido'
+
+    mensaje = f'Hola {nombre_profesor}, tienes un servicio de "{tipo_servicio}" programado para el {fecha_entrega}. Le recordamos entregar las tareas o iniciar clases a tiempo.'
+
+    message = client.messages.create(
+        from_='whatsapp:+14155238886',
+        body=mensaje,
+        to=f'whatsapp:{phone}'
+    )
+
+   # print(message.sid)  # Para depuración, puedes omitir esta línea si no es necesario.
+
+    # Aquí puedes devolver una respuesta adecuada a tu frontend si lo deseas.
+    return render(request, 'respuesta.html', {'mensaje': mensaje})
+
+
+    El modelo 
+    @login_required
+def create_order(request):
+    form = Form()
+    if request.method == 'POST':
+        form = Form(request.POST)
+        if form.is_valid():
+            form.save()
+
+            # Obtener la información de la nueva orden
+            tipo_servicio = form.cleaned_data['tipo_servicio']
+            fecha_entrega = form.cleaned_data['fecha_entrega']
+            profe_asignado = form.cleaned_data['profe_asignado']
+
+            # Construir el mensaje personalizado
+            mensaje_personalizado = f'Hola {profe_asignado.name}, se confirmó el servicio de "{tipo_servicio}" para el cliente {form.cleaned_data["customer"].name} el día {fecha_entrega}.'
+            if tipo_servicio == 'clases' and form.cleaned_data['hora_clase_inicial']:
+                mensaje_personalizado += f' La hora de inicio es {form.cleaned_data["hora_clase_inicial"].strftime("%H:%M")}.'
+
+            # Llamar a la función enviar_mensaje_whatsapp() con el mensaje personalizado
+            enviar_mensaje_whatsapp(request, profe_asignado.phone, tipo_servicio, fecha_entrega, mensaje_personalizado)
+
+            return redirect('/orders')
+    context = {'form':form}
+    return render(request, 'crm/form_page.html', context)
+
+    def enviar_mensaje_whatsapp(request, phone, tipo_servicio, fecha_entrega, mensaje_personalizado=None):
+    account_sid = 'AC41076cd199a80e19608f601546791443'
+    auth_token = 'b2da866f370c829d812f887d14953934'
+    client = Client(account_sid, auth_token)
+
+    # Consultar el nombre del profesor a partir del teléfono
+    try:
+        profe = Product.objects.get(phone=phone)
+        nombre_profesor = profe.name
+    except Product.DoesNotExist:
+        nombre_profesor = 'Profesor desconocido'
+
+    if mensaje_personalizado:
+        mensaje = mensaje_personalizado
+    else:
+        mensaje = f'Hola {nombre_profesor}, tienes un servicio de "{tipo_servicio}" programado para el {fecha_entrega}. Le recordamos entregar las tareas o iniciar clases a tiempo.'
+
+    try:
+        message = client.messages.create(
+            from_='whatsapp:+14155238886',
+            body=mensaje,
+            to=f'whatsapp:{phone}'
+        )
+        # El mensaje se envió correctamente
+        response_data = {
+            'success': True,
+            'message': 'Mensaje enviado exitosamente.'
+        }
+    except Exception as e:
+        # Ocurrió un error al enviar el mensaje
+        response_data = {
+            'success': False,
+            'message': f'Error al enviar el mensaje: {str(e)}'
+        }
+
+    # Devolver una respuesta JSON
+    return JsonResponse(response_data)
+    ###
+
+
+
+    ### original
+
+    def enviar_mensaje_whatsapp(request, phone, tipo_servicio, fecha_entrega):
+    account_sid = 'AC41076cd199a80e19608f601546791443'
+    auth_token = 'b2da866f370c829d812f887d14953934'
+    client = Client(account_sid, auth_token)
+
+    # Consultar el nombre del profesor a partir del teléfono
+    try:
+        profe = Product.objects.get(phone=phone)
+        nombre_profesor = profe.name
+    except Product.DoesNotExist:
+        nombre_profesor = 'Profesor desconocido'
+
+    mensaje = f'Hola {nombre_profesor}, tienes un servicio de "{tipo_servicio}" programado para el {fecha_entrega}. Le recordamos entregar las tareas o iniciar clases a tiempo.'
+
+    try:
+        message = client.messages.create(
+            from_='whatsapp:+14155238886',
+            body=mensaje,
+            to=f'whatsapp:{phone}'
+        )
+        # El mensaje se envió correctamente
+        response_data = {
+            'success': True,
+            'message': 'Mensaje enviado exitosamente.'
+        }
+    except Exception as e:
+        # Ocurrió un error al enviar el mensaje
+        response_data = {
+            'success': False,
+            'message': f'Error al enviar el mensaje: {str(e)}'
+        }
+
+    # Devolver una respuesta JSON
+    return JsonResponse(response_data)
+
+
+    #######################
+
+
+    <script>
+        // custom.js
+      
+        document.addEventListener("DOMContentLoaded", function() {
+          console.log("Script cargado correctamente.");
+      
+          var whatsappButtons = document.querySelectorAll(".btn-send-whatsapp");
+      
+          whatsappButtons.forEach(function(button) {
+            button.addEventListener("click", function() {
+              var phone = this.getAttribute("data-phone");
+              var tipoServicio = this.getAttribute("data-tipo-servicio");
+              var fechaEntrega = this.getAttribute("data-fecha-entrega");
+      
+              if (phone && tipoServicio && fechaEntrega) {
+                var url = `/enviar_mensaje_whatsapp/${phone}/${tipoServicio}/${fechaEntrega}/`;
+      
+                fetch(url)
+                  .then(response => response.json())
+                  .then(data => {
+                    if (data.success) {
+                      mostrarNotificacion(data.message, "success");
+                    } else {
+                      mostrarNotificacion(data.message, "error");
+                    }
+                  })
+                  .catch(error => {
+                    console.error("Error al enviar el mensaje:", error);
+                    mostrarNotificacion("Error al enviar el mensaje", "error");
+                  });
+              }
+            });
+          });
+      
+          // Función para mostrar una notificación emergente con SweetAlert.
+          function mostrarNotificacion(mensaje, tipo) {
+            Swal.fire({
+              title: mensaje,
+              icon: tipo,
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 3000
+            });
+          }
+        });
+      </script>
+   ###
+   <script>
+    // custom.js
+    
+    document.addEventListener("DOMContentLoaded", function() {
+        console.log("Script cargado correctamente.");
+    
+        var whatsappButtons = document.querySelectorAll(".btn-send-whatsapp");
+    
+        whatsappButtons.forEach(function(button) {
+          button.addEventListener("click", function() {
+            var phone = this.getAttribute("data-phone");
+            var tipoServicio = this.getAttribute("data-tipo-servicio");
+            var fechaEntrega = this.getAttribute("data-fecha-entrega");
+    
+            if (phone && (tipoServicio || fechaEntrega)) {
+              var url = "/enviar_mensaje_whatsapp/";
+              var formData = new FormData();
+    
+              formData.append("phone", phone);
+    
+              if (tipoServicio) {
+                formData.append("tipo_servicio", tipoServicio);
+              }
+    
+              if (fechaEntrega) {
+                formData.append("fecha_entrega", fechaEntrega);
+              }
+    
+              fetch(url, {
+                method: "POST",
+                body: formData
+              })
+                .then(response => response.json())
+                .then(data => {
+                  if (data.success) {
+                    mostrarNotificacion(data.message, "success");
+                  } else {
+                    mostrarNotificacion(data.message, "error");
+                  }
+                })
+                .catch(error => {
+                  console.error("Error al enviar el mensaje:", error);
+                  mostrarNotificacion("Error al enviar el mensaje", "error");
+                });
+            }
+          });
+        });
+    
+        // Función para mostrar una notificación emergente con SweetAlert.
+        function mostrarNotificacion(mensaje, tipo) {
+          Swal.fire({
+            title: mensaje,
+            icon: tipo,
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000
+          });
+        }
+      });
+    
+  </script>

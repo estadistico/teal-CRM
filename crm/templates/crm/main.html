@@ -2,7 +2,6 @@
 
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
@@ -13,51 +12,153 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-
-    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <title>CRM</title>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+    integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+    crossorigin="anonymous"></script>
+    <title>Admin Tuprofeestadistica </title>
 
-    <style></style>
+    <!-- Enlaza el archivo main.css -->
+    <link href="{% static 'css/main.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.15/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.15/dist/sweetalert2.all.min.js"></script>
+
+   
+    <style>
+        /* Agrega aquí tus estilos personalizados para el panel */
+        body {
+            background-color: #f8f9fa;
+        }
+        #wrapper {
+            overflow-x: hidden;
+        }
+        #sidebar-wrapper {
+            min-height: 100vh;
+            padding-top: 20px;
+            background-color: #15202B; /* Cambia el verde (#00765e) por azul oscuro (#15202B) */
+        }
+        .sidebar-nav .lead {
+            color: #ffffff; /* Cambia el color del texto a blanco para que contraste con el azul oscuro */
+            font-size: 1.5rem;
+        }
+        .sidebar-nav li {
+            padding: 15px;
+        }
+        .sidebar-nav li a {
+            color: #ffffff; /* Cambia el color del texto a blanco para que contraste con el azul oscuro */
+            font-size: 1.1rem;
+            text-decoration: none;
+        }
+        .sidebar-nav li a:hover {
+            color: #43C6AC; /* Cambia el color del texto al hacer hover para que contraste con el azul oscuro */
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .sidebar-nav li.sidebar-brand a:hover {
+            background: none;
+        }
+        .sidebar-nav li.active {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .sub-menu {
+            display: none; /* Oculta los submenús por defecto */
+        }
+        .active .sub-menu {
+            display: block; /* Muestra el submenú cuando el enlace padre está activo */
+        }
+        .page-content {
+            padding: 20px;
+            background-color: #ffffff;
+        }
+        /* Agrega estilos adicionales según tus preferencias */
+    </style>
+
+
+    <script>
+          // custom.js
+
+  document.addEventListener("DOMContentLoaded", function() {
+    console.log("Script cargado correctamente.");
+
+    var whatsappButtons = document.querySelectorAll(".btn-send-whatsapp");
+
+    whatsappButtons.forEach(function(button) {
+      button.addEventListener("click", function() {
+        var phone = this.getAttribute("data-phone");
+        var tipoServicio = this.getAttribute("data-tipo-servicio");
+        var fechaEntrega = this.getAttribute("data-fecha-entrega");
+
+        if (phone && tipoServicio && fechaEntrega) {
+          var url = `/enviar_mensaje_whatsapp/${phone}/${tipoServicio}/${fechaEntrega}/`;
+
+          fetch(url)
+            .then(response => response.json())
+            .then(data => {
+              if (data.success) {
+                mostrarNotificacion(data.message, "success");
+              } else {
+                mostrarNotificacion(data.message, "error");
+              }
+            })
+            .catch(error => {
+              console.error("Error al enviar el mensaje:", error);
+              mostrarNotificacion("Error al enviar el mensaje", "error");
+            });
+        }
+      });
+    });
+
+    // Función para mostrar una notificación emergente con SweetAlert.
+    function mostrarNotificacion(mensaje, tipo) {
+      Swal.fire({
+        title: mensaje,
+        icon: tipo,
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000
+      });
+    }
+  });
+      </script>    
+       
+    
 </head>
-
 <body>
     <div id="wrapper">
+        <!-- Sidebar -->
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
                 <li class="sidebar-brand">
                     <a href="{% url 'home' %}" class="lead text-center mr-4">
-                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-calendar3" fill="currentColor"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z" />
-                            <path fill-rule="evenodd"
-                                d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
-                        </svg>
-                        Tuprofeestadistica</a>
-                </li>
-                <li>
-                    <a href="{% url 'home' %}">Dashboard</a>
-                </li>
-                <li>
-                    <a href="{% url 'products' %}">Profesores</a>
-                </li>
-                <li>
-                    <a href="{% url 'orders' %}">Orders</a>
+                        Home (Tuprofe)
+                    </a>
                 </li>
                 <li>
                     <a href="{% url 'contacts' %}">Clientes</a>
                 </li>
                 <li>
-                    <a href="{% url 'task' %}">Notas</a>
+                    <a href="{% url 'orders' %}">Orders</a>
+                </li>
+                <li class="has-submenu">
+                    <a href="javascript:void(0)">Reportes</a>
+                    <ul class="sub-menu">
+                        <li><a href="{% url 'nomina' %}">Nomina</a></li>
+                        <li><a href="{% url 'task' %}">Notas rapidas</a></li>
+                        <!-- Agrega más opciones de submenús si es necesario -->
+                    </ul>
+                </li>
+                <li>
+                    <a href="{% url 'products' %}">Profesores</a>
                 </li>
                 <li>
                     <a href="{% url 'signout' %}">Salir</a>
                 </li>
-
             </ul>
         </div>
-        <div id="page-content-wrapper">
+        <!-- Contenido principal -->
+        <div id="page-content-wrapper" class="page-content">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
@@ -68,15 +169,15 @@
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
-        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
-        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
-        crossorigin="anonymous"></script>
+    <!-- Scripts de Bootstrap y otros si es necesario -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script>
+        // Agrega el comportamiento para mostrar/ocultar los submenús
+        $(document).ready(function () {
+            $('.has-submenu').click(function () {
+                $(this).toggleClass('active');
+            });
+        });
+    </script>
 </body>
-
 </html>

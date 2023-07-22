@@ -2,6 +2,14 @@
     overflow-x: hidden;
 }
 
+.orange-text {
+  color: orange;
+}
+
+.red-text {
+  color: red;
+}
+
 .my-table {
   border-collapse: collapse;
   font-size: 0.9em;

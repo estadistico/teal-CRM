@@ -1,0 +1,38 @@
+{% extends 'crm/main.html' %}
+
+{% block content %}
+
+<h1>Validar nómina</h1>
+
+<p>Rango de fechas: {{ fecha_inicial|date:"d/m/Y" }} - {{ fecha_final|date:"d/m/Y" }}</p>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Fecha de creación</th>
+      <th scope="col">Cliente</th>
+      <th scope="col">Tipo de servicio</th>
+      <th scope="col">Profesor asignado</th>
+      <th scope="col">Costo</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for order in orders %}
+    <tr>
+      <td>{{ order.date_created|date:"d/m/Y H:i" }}</td>
+      <td>{{ order.customer.name }}</td>
+      <td>{{ order.tipo_servicio }}</td>
+      <td>{{ order.profe_asignado.name }}</td>
+      <td>{{ order.cost_profe }}</td>
+    </tr>
+    {% endfor %}
+    <tr>
+      <td colspan="4"><strong>Total a cobrar:</strong></td>
+      <td>{{ total_a_cobrar }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<a href="{% url 'pagar_nomina' 0 fecha_inicial fecha_final %}" class="btn btn-primary">Emitir pago</a>
+
+{% endblock %}

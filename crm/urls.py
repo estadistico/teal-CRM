@@ -16,6 +16,11 @@ urlpatterns = [
     path('create_order/', views.create_order, name="create_order"),
     path('update_order/<str:pk>', views.update_order, name="update_order"),
     path('delete_order/<str:pk>', views.delete_order, name="delete_order"),
+    path('nomina/', views.nomina, name='nomina'),
+    path('pagar_nomina/<int:profe_id>/<str:fecha_inicial>/<str:fecha_final>/', views.pagar_nomina, name='pagar_nomina'),
+    path('enviar_mensaje_whatsapp/<str:phone>/<str:tipo_servicio>/<str:fecha_entrega>/', views.enviar_mensaje_whatsapp, name='enviar_mensaje_whatsapp'),
+    path('enviar_mensaje_personalizado/<str:phone>/<str:mensaje_personalizado>/', views.enviar_mensaje_personalizado, name='enviar_mensaje_personalizado'),
     path("signin/", views.signin, name="signin"),
     path("signout/", views.signout, name="signout")
 ]
+##path('pagar_nomina/', views.pagar_nomina, name='pagar_nomina'),

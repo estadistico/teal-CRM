@@ -1,126 +1,122 @@
 {% extends 'crm/main.html' %}
 {% block content %}
-<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js'></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    console.log("Script cargado correctamente.");
 
-<div class="container card">
-  <div class="row text-center text-light card-body bg-light">
-    <div class="col-6">
-      <canvas id="myChart" height="200px"></canvas>
-      <script>
-        var ctx = document.getElementById('myChart').getContext('2d');
-        var myChart = new Chart(ctx, {
-          type: 'pie',
-          data: {
-            labels: [{% for o in orders_label %}'{{o}}',{% endfor %}],
-        datasets: [{
-          data: [{% for p in og %}{{ p }}, {% endfor %}],
-          backgroundColor: [
-            'rgb(255, 99, 132)',
-            'rgb(54, 162, 235)',
-            'rgb(255, 206, 86)',
-            'rgb(74, 225, 136)',
-            'rgb(153, 102, 255)',
-            'rgb(255, 159, 64)'
-          ],
-            borderColor: [
-              'rgb(255, 99, 132)',
-              'rgb(54, 162, 235)',
-              'rgb(255, 206, 86)',
-              'rgb(74, 225, 136)',
-              'rgb(153, 102, 255)',
-              'rgb(255, 159, 64)'
-            ],
-              borderWidth: 1
-        }]
-    },
-        options: {
-          "responsive": true,
-            "maintainAspectRatio": false,
-              legend: {
-            display: false,
-        }
-        }
-});
-      </script>
-    </div>
-    <div class="col-6">
-      <canvas id="myChart2" height="200px"></canvas>
-      <script>
-        var ctx = document.getElementById('myChart2').getContext('2d');
-        var myChart2 = new Chart(ctx, {
-          type: 'bar',
-          data: {
-            labels: [{% for o in orders_label %}'{{o}}',{% endfor %}],
-        datasets: [{
-          data: [{% for p in og %} {{ p }}, {% endfor %}],
-          backgroundColor: [
-            'rgb(255, 99, 132)',
-            'rgb(54, 162, 235)',
-            'rgb(255, 206, 86)',
-            'rgb(74, 225, 136)',
-            'rgb(153, 102, 255)',
-            'rgb(255, 159, 64)'
-          ],
-            borderColor: [
-              'rgb(255, 99, 132)',
-              'rgb(54, 162, 235)',
-              'rgb(255, 206, 86)',
-              'rgb(74, 225, 136)',
-              'rgb(153, 102, 255)',
-              'rgb(255, 159, 64)'
-            ],
-              borderWidth: 1
-        }]
-    },
-        options: {
-          "responsive": true,
-            "maintainAspectRatio": false,
-              legend: {
-            display: false,
-            
-        }
-        }
-});
-      </script>
+    var today = new Date();
+
+    var rows = document.querySelectorAll(".my-table tbody tr");
+    rows.forEach(function(row) {
+      var fechaEntregaStr = row.querySelector("td:nth-child(6)").textContent;
+      var fechaEntrega = new Date(fechaEntregaStr);
+      var status = row.querySelector("td:nth-child(8)").textContent;
+
+      console.log("Fecha de entrega:", fechaEntregaStr);
+      console.log("Fecha de entrega (objeto Date):", fechaEntrega);
+
+      if (fechaEntrega >= today) {
+        row.classList.add("orange-text");
+        console.log("Fila marcada con clase 'orange-text'.");
+      }
+
+      if (status === "PENDIENTE PAGO") {
+        row.classList.add("red-text");
+        console.log("Fila marcada con clase 'red-text'.");
+      }
+    });
+  });
+</script>
+
+
+<div class="container">
+  <div class="row mt-3">
+    <div class="col-12 text-center">
+      <h3>Metricas desde el 01 de {{ Fecha_mes_actual|date:"F" }} hasta el {{ Fecha_mes_actual|date:"d F Y" }}</h3>
     </div>
   </div>
-</div>
+  <div class="row">
+    <!-- Tarjeta: Total de Orders durante el mes actual -->
+    <div class="col-md-3 col-12 mt-3">
+      <div class="card bg-primary text-light">
+        <div class="card-body">
+          <h5 class="card-title text-center align-middle">Total tareas</h5>
+          <h4 class="card-text text-center align-middle">{{ total_orders_mes_actual }}</h4>
+        </div>
+      </div>
+    </div>
 
-<div class="text-center justify-content-md-center mt-3">
+    <!-- Tarjeta: Total de Orders por entregar hoy y fecha posterior -->
+    <div class="col-md-3 col-12 mt-3">
+      <div class="card bg-primary text-light">
+        <div class="card-body">
+          <h5 class="card-title text-center align-middle">Tareas por entregar</h5>
+          <h4 class="card-text text-center align-middle">{{ total_orders_por_entregar }}</h4>
+        </div>
+      </div>
+    </div>
 
-  <table class="my-table w-100">
-    <thead>
+    <!-- Tarjeta: Total de ingresos durante el mes actual -->
+    <div class="col-md-3 col-12 mt-3">
+      <div class="card bg-info text-light">
+        <div class="card-body">
+          <h5 class="card-title text-center align-middle">Ingresos Total</h5>
+          <h4 class="card-text text-center align-middle">{{ total_ingresos_mes_actual }}$</h4>
+        </div>
+      </div>
+    </div>
 
-      <tr>
-        <th colspan='9' scope="col">Recent Orders</th>
-      </tr>
-      <tr class="text-center">
-        <th>Cliente</th>
-        <th></th>
-        <th>tipo de servicio</th>
-        <th></th>
-        <th>Profesor</th>
-        <th>Fecha creacion</th>
-        <th></th>
-        <th>Status</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for o in recent_orders %}
-      <tr>
-        <th scope="row">{{o.customer.name}}</th>
-        <td></td>
-        <td>{{o.tipo_servicio}}</td>
-        <td></td>
-        <td>{{o.profe_asignado.name}}</td>
-        <td>{{o.date_created|date:"d-M h:i A"}}</td>
-        <td></td>
-        <td>{{o.status}}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
+    <!-- Tarjeta: Total de ingreso de "Tuprofeestadistica" -->
+    <div class="col-md-3 col-12 mt-3">
+      <div class="card bg-info text-light">
+        <div class="card-body">
+          <h5 class="card-title text-center align-middle">Ingreso Tuprofe</h5>
+          <h4 class="card-text text-center align-middle">{{ total_ingresos_tuprofeestadistica }}$</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center justify-content-md-center mt-3">
+    <div class="table-responsive">
+      <table class="my-table w-100">
+        <thead>
+          <tr>
+            <th colspan='9' scope="col">Recent Orders</th>
+          </tr>
+          <tr class="text-center">
+            <th>Cliente</th>
+            <th></th>
+            <th>tipo de servicio</th>
+            <th></th>
+            <th>Profesor</th>
+            <th>Fecha Entrega</th>
+            <th></th>
+            <th>Status</th>
+            <th>Recordatorio</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for o in recent_orders %}
+          <tr>
+            <th scope="row">{{o.customer.name}}</th>
+            <td></td>
+            <td>{{o.tipo_servicio}}</td>
+            <td></td>
+            <td>{{o.profe_asignado.name}}</td>
+            <td>{{o.fecha_entrega|date:"d-M"}}</td>
+            <td></td>
+            <td>{{o.status}}</td>
+            <td>
+              <button class="btn btn-success btn-send-whatsapp" data-phone="{{ o.profe_asignado.phone }}" data-tipo-servicio="{{ o.tipo_servicio }}" data-fecha-entrega="{{ o.fecha_entrega|date:"d-M" }}">Enviar WhatsApp</button>
+            </td>
+            
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
 
 {% endblock content %}

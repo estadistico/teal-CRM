@@ -2,6 +2,7 @@ from .models import *
 from django import forms
 from django.forms import ModelForm
 
+
 class ContactForm(forms.ModelForm):
     class Meta:
         model = Customer
@@ -15,7 +16,11 @@ class ContactForm(forms.ModelForm):
                 }  
 
 class Form(forms.ModelForm):
+    se_le_pago = forms.BooleanField(label="Pagado al profe", required=False)
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['customer'].queryset = Customer.objects.all().order_by('-date_created')
     class Meta:
         model = Order
         fields = '__all__'
@@ -31,6 +36,7 @@ class Form(forms.ModelForm):
                    "hora_clase_inicial": forms.TimeInput(attrs={'class': 'form-control form-control-sm', 'type': 'time'}),
                    "hora_clase_final": forms.TimeInput(attrs={'class': 'form-control form-control-sm', 'type': 'time'}),
                    "status": forms.Select(attrs={'class': "form-control form-control-sm"}),
+
                 } 
         labels={
                      "fecha_entrega": "Fecha de entrega",
@@ -53,7 +59,5 @@ class ProductForm(forms.ModelForm):
                    "especialidad":forms.Select(attrs={'class': "form-control form-control-sm"}),
                 } 
 
-+329
-
-         
+        
         

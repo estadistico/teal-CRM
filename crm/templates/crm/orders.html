@@ -23,7 +23,7 @@
         <th scope="row">{{o.customer.name }}</th>
         <td>{{o.tipo_servicio}}</td>
         <td>{{ o.profe_asignado.name }}</td> 
-        <td>{{ o.date_created|date:"d-m-Y h:i A" }}</td>
+        <td>{{ o.fecha_entrega|date:"d-m-Y h:i A" }}</td>
         <td>{{o.status}}</td>
         <td>
           <a class="btn btn-sm btn-outline-dark" href="{% url 'update_order' o.id %}"><svg width="1em" height="1em"
