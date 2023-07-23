@@ -11,11 +11,13 @@ from decimal import Decimal, ROUND_DOWN
 from datetime import datetime, date
 from twilio.rest import Client
 from django.http import JsonResponse
+from .config import TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_PHONE_NUMBER
 
 
 def enviar_mensaje_whatsapp(request, phone, tipo_servicio, fecha_entrega, mensaje_personalizado=None):
-    account_sid = 'AC41076cd199a80e19608f601546791443'
-    auth_token = 'b2da866f370c829d812f887d14953934'
+    account_sid = TWILIO_ACCOUNT_SID
+    auth_token = TWILIO_AUTH_TOKEN
+    phone_number = TWILIO_PHONE_NUMBER
     client = Client(account_sid, auth_token)
 
     # Consultar el nombre del profesor a partir del teléfono
@@ -32,7 +34,7 @@ def enviar_mensaje_whatsapp(request, phone, tipo_servicio, fecha_entrega, mensaj
 
     try:
         message = client.messages.create(
-            from_='whatsapp:+14155238886',
+            from_='whatsapp:{phone_number}',
             body=mensaje,
             to=f'whatsapp:{phone}'
         )

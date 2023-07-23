@@ -6,6 +6,8 @@
 
 # C extensions
 *.so
+#claves
+config.py  # o .env u otros archivos de configuración
 
 # Distribution / packaging
 .Python
