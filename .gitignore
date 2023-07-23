@@ -8,7 +8,8 @@
 *.so
 #claves
 config.py  # o .env u otros archivos de configuración
-
+CRM/config.py
+djproj/config.py
 # Distribution / packaging
 .Python
 env/
