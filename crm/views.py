@@ -102,8 +102,9 @@ def dashboard(request):
     return render(request,'crm/dashboard.html', context)
 
 def enviar_mensaje_personalizado(request, phone, mensaje_personalizado):
-    account_sid = 'AC41076cd199a80e19608f601546791443'
-    auth_token = 'b2da866f370c829d812f887d14953934'
+    account_sid = TWILIO_ACCOUNT_SID
+    auth_token = TWILIO_AUTH_TOKEN
+    phone_number = TWILIO_PHONE_NUMBER
     client = Client(account_sid, auth_token)
 
     # Consultar el nombre del profesor a partir del teléfono
@@ -117,7 +118,7 @@ def enviar_mensaje_personalizado(request, phone, mensaje_personalizado):
 
     try:
         message = client.messages.create(
-            from_='whatsapp:+14155238886',
+            from_='whatsapp:{phone_number}',
             body=mensaje,
             to=f'whatsapp:{phone}'
         )
