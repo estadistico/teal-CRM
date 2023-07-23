@@ -76,53 +76,78 @@
 
 
     <script>
-          // custom.js
-
-  document.addEventListener("DOMContentLoaded", function() {
-    console.log("Script cargado correctamente.");
-
-    var whatsappButtons = document.querySelectorAll(".btn-send-whatsapp");
-
-    whatsappButtons.forEach(function(button) {
-      button.addEventListener("click", function() {
-        var phone = this.getAttribute("data-phone");
-        var tipoServicio = this.getAttribute("data-tipo-servicio");
-        var fechaEntrega = this.getAttribute("data-fecha-entrega");
-
-        if (phone && tipoServicio && fechaEntrega) {
-          var url = `/enviar_mensaje_whatsapp/${phone}/${tipoServicio}/${fechaEntrega}/`;
-
-          fetch(url)
-            .then(response => response.json())
-            .then(data => {
-              if (data.success) {
-                mostrarNotificacion(data.message, "success");
-              } else {
-                mostrarNotificacion(data.message, "error");
+        // custom.js
+      
+        document.addEventListener("DOMContentLoaded", function() {
+          console.log("Script cargado correctamente.");
+      
+          var whatsappButtons = document.querySelectorAll(".btn-send-whatsapp");
+      
+          whatsappButtons.forEach(function(button) {
+            button.addEventListener("click", function() {
+              var phone = this.getAttribute("data-phone");
+              var tipoServicio = this.getAttribute("data-tipo-servicio");
+              var fechaEntrega = this.getAttribute("data-fecha-entrega");
+      
+              if (phone && tipoServicio && fechaEntrega) {
+                var url = `/enviar_mensaje_whatsapp/${phone}/${tipoServicio}/${fechaEntrega}/`;
+      
+                fetch(url)
+                  .then(response => response.json())
+                  .then(data => {
+                    if (data.success) {
+                      mostrarNotificacion(data.message, "success");
+                    } else {
+                      mostrarNotificacion(data.message, "error");
+                    }
+                  })
+                  .catch(error => {
+                    console.error("Error al enviar el mensaje:", error);
+                    mostrarNotificacion("Error al enviar el mensaje", "error");
+                  });
               }
-            })
-            .catch(error => {
-              console.error("Error al enviar el mensaje:", error);
-              mostrarNotificacion("Error al enviar el mensaje", "error");
             });
-        }
-      });
-    });
-
-    // Función para mostrar una notificación emergente con SweetAlert.
-    function mostrarNotificacion(mensaje, tipo) {
-      Swal.fire({
-        title: mensaje,
-        icon: tipo,
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 3000
-      });
-    }
-  });
-      </script>    
-       
+          });
+      
+          // Función para mostrar una notificación emergente con SweetAlert.
+          function mostrarNotificacion(mensaje, tipo) {
+            Swal.fire({
+              title: mensaje,
+              icon: tipo,
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 3000
+            });
+          }
+        });
+      </script>
+          
+      
+      <script>
+        // custom.js
+        document.addEventListener("DOMContentLoaded", function() {
+          console.log("Script cargado correctamente.");
+      
+          var pagarPagadoButton = document.querySelector(".btn-pagar-nomina");
+      
+          pagarPagadoButton.addEventListener("click", function() {
+            mostrarNotificacion("sms whatsapp enviado", "success");
+          });
+      
+          // Función para mostrar una notificación emergente con SweetAlert.
+          function mostrarNotificacion(mensaje, tipo) {
+            Swal.fire({
+              title: mensaje,
+              icon: tipo,
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 3000
+            });
+          }
+        });
+      </script>
     
 </head>
 <body>

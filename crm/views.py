@@ -14,7 +14,7 @@ from django.http import JsonResponse
 from .config import TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_PHONE_NUMBER
 
 
-def enviar_mensaje_whatsapp(request, phone, tipo_servicio, fecha_entrega, mensaje_personalizado=None):
+def enviar_mensaje_whatsapp(request, phone, tipo_servicio, fecha_entrega):
     account_sid = TWILIO_ACCOUNT_SID
     auth_token = TWILIO_AUTH_TOKEN
     phone_number = TWILIO_PHONE_NUMBER
@@ -27,14 +27,11 @@ def enviar_mensaje_whatsapp(request, phone, tipo_servicio, fecha_entrega, mensaj
     except Product.DoesNotExist:
         nombre_profesor = 'Profesor desconocido'
 
-    if mensaje_personalizado:
-        mensaje = mensaje_personalizado
-    else:
-        mensaje = f'Hola {nombre_profesor}, tienes un servicio de "{tipo_servicio}" programado para el {fecha_entrega}. Le recordamos entregar las tareas o iniciar clases a tiempo.'
+    mensaje = f'Hola {nombre_profesor}, tienes un servicio de "{tipo_servicio}" programado para el {fecha_entrega}. Le recordamos entregar las tareas o iniciar clases a tiempo.'
 
     try:
         message = client.messages.create(
-            from_='whatsapp:{phone_number}',
+            from_=f'whatsapp:{phone_number}',
             body=mensaje,
             to=f'whatsapp:{phone}'
         )
@@ -118,7 +115,7 @@ def enviar_mensaje_personalizado(request, phone, mensaje_personalizado):
 
     try:
         message = client.messages.create(
-            from_='whatsapp:{phone_number}',
+            from_=f'whatsapp:{phone_number}',
             body=mensaje,
             to=f'whatsapp:{phone}'
         )
@@ -358,9 +355,6 @@ def pagar_nomina(request, profe_id, fecha_inicial, fecha_final):
 
     # Redirigir al usuario a la página de la nómina
     return redirect('nomina')
-
-
-
 
 
 def signin(request):

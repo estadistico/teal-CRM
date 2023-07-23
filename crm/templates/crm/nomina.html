@@ -26,7 +26,9 @@
         <td>{{ total.monto_local|floatformat:"1" }}BS</td>
         <td>
           {% comment %} <a href="{% url 'pagar_nomina' profe.id last_week|date:'Y-m-d' today|date:'Y-m-d' %}" class="btn btn-primary">Marcar Pagado</a> {% endcomment %}
-          <a href="{% url 'pagar_nomina' profe.id last_week|date:'Y-m-d' today|date:'Y-m-d' %}" class="btn btn-primary btn-marcar-pagado btn-send-whatsapp" data-phone="{{ profe.phone }}">Marcar Pagado</a>
+          {% comment %} <a href="{% url 'pagar_nomina' profe.id last_week|date:'Y-m-d' today|date:'Y-m-d' %}" class="btn btn-primary btn-marcar-pagado btn-send-whatsapp" data-phone="{{ profe.phone }}">Marcar Pagado</a> {% endcomment %}
+          <a href="{% url 'pagar_nomina' profe.id last_week|date:'Y-m-d' today|date:'Y-m-d' %}" class="btn btn-primary btn-marcar-pagado btn-pagar-nomina" data-profe-id="{{ profe.id }}" data-fecha-inicial="{{ last_week|date:'Y-m-d' }}" data-fecha-final="{{ today|date:'Y-m-d' }}" data-phone="{{ profe.phone }}">Marcar Pagado</a>
+
 
 
           <button class="btn btn-info" data-toggle="modal" data-target="#orderModal{{ profe.id }}">Mostrar Detalle</button>
