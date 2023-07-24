@@ -298,7 +298,7 @@ def nomina(request):
             
         total_por_profesor[profe_asignado]['total'] += order.cost_profe
 
-        # Obtener el tipo de cambio para el país del profesor y la fecha actual
+        # Obtener el tipo de cambio para el país del profesor
         tipo_cambio_obj = TipoCambio.objects.filter(pais=profe_asignado.pais).latest('date_created')
         #tipo_cambio_obj = TipoCambio.objects.filter(pais=profe_asignado.pais, date_created__lte=today).latest('date_created')
         tipo_cambio = tipo_cambio_obj.tipo_cambio
@@ -314,8 +314,7 @@ def nomina(request):
     for profe in total_por_profesor.keys():
         orders_por_profesor[profe] = Order.objects.filter(profe_asignado=profe, fecha_entrega__range=(last_week, today))
 
-    # Obtener el tipo de cambio actual para mostrarlo en el formulario
-    tipo_cambio_actual = TipoCambio.objects.filter(date_created__lte=timezone.now()).latest('date_created')
+
 
     # Renderizar la plantilla con la información de la nómina
     context = {
@@ -323,7 +322,6 @@ def nomina(request):
         'today': today,
         'last_week': last_week,
         'orders_por_profesor': orders_por_profesor,
-        'tipo_cambio_actual': tipo_cambio_actual,
     }
     return render(request, 'crm/nomina.html', context)
 

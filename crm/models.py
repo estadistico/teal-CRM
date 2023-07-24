@@ -14,13 +14,14 @@ class Customer(models.Model):
     canal =  models.CharField(max_length=200, null=True, choices=(
         ('superprof','superprof'),
         ('tusclases','tusclases'),
+        ('Apprentus','Apprentus'),
         ('Redes Sociales','Redes Sociales'),
         ('Referido','Referido'),
         ('Web propia','Web propia'),
         ('Directorio local','Directorio local'),
     ))
     phone = models.CharField(max_length=200, null=True)
-    email = models.EmailField(max_length=200, null=True)
+    email = models.EmailField(max_length=200, null=True,blank=True)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):

@@ -14,7 +14,7 @@ class ContactForm(forms.ModelForm):
                    "pais":forms.Select(attrs={'class': "form-control form-control-sm"}),
                    "canal":forms.Select(attrs={'class': "form-control form-control-sm"}),
                    "phone":forms.TextInput(attrs={'class': "form-control form-control-sm"}),
-                   "email":forms.TextInput(attrs={'class': "form-control form-control-sm"}),
+                   "email":forms.TextInput(attrs={'class': "form-control form-control-sm",'required': False}),
                 }  
 
 class Form(forms.ModelForm):

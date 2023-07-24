@@ -22,7 +22,7 @@
       <tr>
         <td>{{ profe.name }}</td>
         <td>{{ total.total|floatformat:"1" }}$</td>
-        <td>{{ tipo_cambio_actual.tipo_cambio|floatformat:"1" }}Bs</td>
+        <td>{{ total.tipo_cambio|floatformat:"1" }}Bs</td>
         <td>{{ total.monto_local|floatformat:"1" }}BS</td>
         <td>
           {% comment %} <a href="{% url 'pagar_nomina' profe.id last_week|date:'Y-m-d' today|date:'Y-m-d' %}" class="btn btn-primary">Marcar Pagado</a> {% endcomment %}
