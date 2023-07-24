@@ -692,3 +692,107 @@ def create_order(request):
       });
     
   </script>
+  boo
+  <script>
+    // Script para capturar la respuesta JSON y mostrar la notificación
+    document.addEventListener("DOMContentLoaded", function() {
+      var btnPagarNomina = document.querySelector(".btn-pagar-nomina");
+  
+      if (btnPagarNomina) {
+        btnPagarNomina.addEventListener("click", function() {
+          var profeId = this.getAttribute("data-profe-id");
+          var fechaInicial = this.getAttribute("data-fecha-inicial");
+          var fechaFinal = this.getAttribute("data-fecha-final");
+  
+          if (profeId && fechaInicial && fechaFinal) {
+            var url = `/pagar_nomina/${profeId}/${fechaInicial}/${fechaFinal}/`;
+  
+            fetch(url)
+              .then(response => response.json())
+              .then(data => {
+                if (data.success) {
+                  mostrarNotificacion(data.message, "success");
+                } else {
+                  mostrarNotificacion(data.message, "error");
+                }
+              })
+              .catch(error => {
+                console.error("Error al pagar la nómina:", error);
+                mostrarNotificacion("Error al pagar la nómina", "error");
+              });
+          }
+        });
+      }
+    });
+  
+    // Función para mostrar una notificación emergente con SweetAlert.
+    function mostrarNotificacion(mensaje, tipo) {
+      Swal.fire({
+        title: mensaje,
+        icon: tipo,
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000
+      });
+    }
+  </script>
+  ########
+  {% extends 'crm/main.html' %}
+
+{% block content %}
+
+<h1>Reporte de Ingresos por Profesor</h1>
+
+<form method="post" class="form-inline">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit" class="btn btn-primary">Filtrar</button>
+</form>
+
+<br>
+
+{% if ingreso_usd %}
+  <h2>Ingresos por Profesor en USD</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Profesor</th>
+        <th>Ingreso Total (USD)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for ingreso in ingreso_usd %}
+        <tr>
+          <td>{{ ingreso.profe_asignado__name }}</td>
+          <td>{{ ingreso.ingreso_usd }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p>No hay ingresos disponibles para el filtro seleccionado.</p>
+{% endif %}
+
+{% if ingreso_local %}
+  <h2>Ingresos por Profesor en Moneda Local</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Profesor</th>
+        <th>Ingreso Total (Moneda Local)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for ingreso in ingreso_local %}
+        <tr>
+          <td>{{ ingreso.profe_asignado__name }}</td>
+          <td>{{ ingreso.ingreso_local }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+
+{% endblock %}
+

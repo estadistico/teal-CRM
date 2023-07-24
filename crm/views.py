@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Customer, Product, Order, Pago,TipoCambio
 from .filters import ProductFilter
-from .forms import Form, ProductForm, ContactForm
+from .forms import Form, ProductForm, ContactForm, ReporteIngresosForm
 from django.db.models import Count, Q, Sum
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
@@ -12,6 +12,9 @@ from datetime import datetime, date
 from twilio.rest import Client
 from django.http import JsonResponse
 from .config import TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_PHONE_NUMBER
+from django.db.models import Max
+from django.db.models import F, Sum, DecimalField, ExpressionWrapper, Value, CharField, Subquery
+import calendar
 
 
 def enviar_mensaje_whatsapp(request, phone, tipo_servicio, fecha_entrega):
@@ -356,6 +359,46 @@ def pagar_nomina(request, profe_id, fecha_inicial, fecha_final):
     # Redirigir al usuario a la página de la nómina
     return redirect('nomina')
 
+@login_required
+def reporte_ingresos(request):
+    if request.method == 'POST':
+        form = ReporteIngresosForm(request.POST)
+        if form.is_valid():
+            mes = form.cleaned_data['mes']
+            year = form.cleaned_data['year']
+            profesor_id = form.cleaned_data['profesor']
+
+            # Filtrar las órdenes por mes y año
+            orders = Order.objects.filter(se_le_pago=True, fecha_entrega__month=mes, fecha_entrega__year=year)
+
+            # Filtrar por profesor si se seleccionó uno
+            if profesor_id:
+                orders = orders.filter(profe_asignado_id=profesor_id)
+
+            # Realizar la agregación para obtener el ingreso total en USD y en moneda local por profesor
+            ingreso_usd = orders.values('profe_asignado__name').annotate(ingreso_usd=Sum('cost_profe')).order_by('-ingreso_usd')
+            ingreso_local = orders.values('profe_asignado__name').annotate(
+                ingreso_local=Sum(ExpressionWrapper(F('cost_profe') * F('profe_asignado__pais__tipocambio__tipo_cambio'),
+                                       output_field=DecimalField(max_digits=10, decimal_places=2)))
+            ).order_by('-ingreso_local')
+
+            # Obtener los nombres de los profesores
+            profesores = Product.objects.all()
+
+            # Renderizar la plantilla con la información de ingresos
+            context = {
+                'form': form,
+                'ingreso_usd': ingreso_usd,
+                'ingreso_local': ingreso_local,
+                'profesores': profesores,
+            }
+            return render(request, 'crm/reporte_ingresos.html', context)
+    else:
+        form = ReporteIngresosForm()
+
+    # Si no se envió el formulario, mostrar el formulario vacío
+    context = {'form': form}
+    return render(request, 'crm/reporte_ingresos.html', context)
 
 def signin(request):
     if request.method == 'POST':

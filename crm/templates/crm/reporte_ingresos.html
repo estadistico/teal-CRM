@@ -1,0 +1,72 @@
+{% extends 'crm/main.html' %}
+
+{% block content %}
+
+<h1 class="mb-4">Reporte de Ingresos por Profesor</h1>
+
+<form method="post" class="form-inline mb-4">
+  {% csrf_token %}
+  <div class="form-group mr-2">
+    <label for="{{ form.profesor.id_for_label }}">Profesor:</label>
+    {{ form.profesor }}
+  </div>
+  <div class="form-group mr-2">
+    <label for="{{ form.mes.id_for_label }}">Mes:</label>
+    {{ form.mes }}
+  </div>
+  <div class="form-group mr-2">
+    <label for="{{ form.year.id_for_label }}">Año:</label>
+    {{ form.year }}
+  </div>
+  <div class="form-group form-check">
+    {{ form.fecha_personalizada }}
+    <label class="form-check-label" for="{{ form.fecha_personalizada.id_for_label }}">Fecha personalizada</label>
+  </div>
+  <div class="form-group ml-2">
+    <label for="{{ form.fecha_inicial.id_for_label }}">Fecha inicial:</label>
+    {{ form.fecha_inicial }}
+  </div>
+  <div class="form-group ml-2">
+    <label for="{{ form.fecha_final.id_for_label }}">Fecha final:</label>
+    {{ form.fecha_final }}
+  </div>
+  <button type="submit" class="btn btn-primary ml-2">Filtrar</button>
+</form>
+
+{% if ingreso_usd or ingreso_local %}
+  <h2 class="mb-3">Ingresos por Profesor</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Profesor</th>
+        <th>Ingreso Total (USD)</th>
+        <th>Ingreso Total (Moneda Local)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for profesor in profesores %}
+        <tr>
+          <td>{{ profesor.name }}</td>
+          <td>
+            {% for ingreso in ingreso_usd %}
+              {% if ingreso.profe_asignado__name == profesor.name %}
+                {{ ingreso.ingreso_usd }}
+              {% endif %}
+            {% endfor %}
+          </td>
+          <td>
+            {% for ingreso in ingreso_local %}
+              {% if ingreso.profe_asignado__name == profesor.name %}
+                {{ ingreso.ingreso_local }}
+              {% endif %}
+            {% endfor %}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p class="mt-3">No hay ingresos disponibles para el filtro seleccionado.</p>
+{% endif %}
+
+{% endblock %}
