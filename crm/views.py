@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Customer, Product, Order, Pago,TipoCambio
 from .filters import ProductFilter
-from .forms import Form, ProductForm, ContactForm, ReporteIngresosForm
+from .forms import Form, ProductForm, ContactForm, ReporteIngresosForm,TipoCambioForm
 from django.db.models import Count, Q, Sum
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
@@ -399,6 +399,19 @@ def reporte_ingresos(request):
     # Si no se envió el formulario, mostrar el formulario vacío
     context = {'form': form}
     return render(request, 'crm/reporte_ingresos.html', context)
+
+@login_required
+def ingresar_tipo_cambio(request):
+    if request.method == 'POST':
+        form = TipoCambioForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('ingresar_tipo_cambio')
+    else:
+        form = TipoCambioForm()
+    
+    context = {'form': form}
+    return render(request, 'crm/ingresar_tipo_cambio.html', context)
 
 def signin(request):
     if request.method == 'POST':

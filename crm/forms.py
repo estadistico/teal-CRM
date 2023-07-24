@@ -86,3 +86,8 @@ class ReporteIngresosForm(forms.Form):
     # Campos de rango de fechas para la opción de fecha personalizada
     fecha_inicial = forms.DateField(widget=forms.DateInput(attrs={'class': 'form-control form-control-sm', 'type': 'date'}), label="Fecha inicial", required=False)
     fecha_final = forms.DateField(widget=forms.DateInput(attrs={'class': 'form-control form-control-sm', 'type': 'date'}), label="Fecha final", required=False)
+
+class TipoCambioForm(forms.ModelForm):
+    class Meta:
+        model = TipoCambio
+        fields = ['pais', 'tipo_cambio']
