@@ -68,7 +68,13 @@ def dashboard(request):
     total_ingresos_mes_actual = Order.objects.filter(date_created__year=today.year, date_created__month=today.month).aggregate(Sum('cost'))['cost__sum'] or 0
 
     # Calcular el total de ingreso de "Tuprofeestadistica" (cost - cost_profe)
-    total_ingresos_tuprofeestadistica = Order.objects.filter(date_created__year=today.year, date_created__month=today.month).aggregate(Sum('cost_profe'))['cost_profe__sum'] or 0
+    #total_ingresos_tuprofeestadistica = Order.objects.filter(date_created__year=today.year, date_created__month=today.month).aggregate(Sum('cost_profe'))['cost_profe__sum'] or 0
+    # Calcular el total de ingreso de "Tuprofeestadistica" (cost - cost_profe)
+    total_ingresos_tuprofeestadistica = Order.objects.filter(
+    date_created__year=today.year,
+    date_created__month=today.month,
+    profe_asignado__name='Tuprofeestadistica'
+    ).aggregate(total_ingresos_tuprofeestadistica=Sum(F('cost') - F('cost_profe')))['total_ingresos_tuprofeestadistica'] or 0
 
     # Calcular el total de órdenes por entregar hoy y en fechas posteriores
     total_orders_por_entregar = Order.objects.filter(fecha_entrega__gte=today).count()
