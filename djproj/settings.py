@@ -74,7 +74,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'djproj.wsgi.application'
 
 # twilio
-from crm.config import TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_PHONE_NUMBER,USERDB, DBPASSWORD
+from crm.config import TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_PHONE_NUMBER,USERDB, DBPASSWORD,hostDB
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
@@ -82,8 +82,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', #'ENGINE': 'django.db.backends.mysql',
         'NAME': 'railway',
-        'USER': 'root',
-        'PASSWORD':'7BIhPe9uWClhWkVdInqZ',
+        'USER': USERDB,
+        'PASSWORD':DBPASSWORD,
         'HOST': 'containers-us-west-67.railway.app',  # O la dirección IP proporcionada por tu proveedor de hosting 144.126.136.150
         'PORT': '7495',           # Déjalo en blanco para usar el puerto predeterminado de MySQL
     }
