@@ -26,7 +26,7 @@ SECRET_KEY = 'g*#m%ohk#f3$5sof44udwbg@me#y$vz&vl^i@kfk44qz@kht&@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -74,7 +74,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'djproj.wsgi.application'
 
 # twilio
-from crm.config import TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_PHONE_NUMBER,USERDB, DBPASSWORD,hostDB
+from crm.config import TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_PHONE_NUMBER,USERDB, DBPASSWORD
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
@@ -134,6 +134,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT= os.path.join(BASE_DIR,"staticfiles")
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
 LOGIN_URL='/signin'
