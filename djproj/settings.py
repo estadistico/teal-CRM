@@ -80,12 +80,12 @@ from crm.config import TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_PHONE_NUMBE
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql', #'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.postgresql', #'ENGINE': 'django.db.backends.mysql',
         'NAME': 'railway',
         'USER': USERDB,
         'PASSWORD':DBPASSWORD,
-        'HOST': 'containers-us-west-67.railway.app',  # O la dirección IP proporcionada por tu proveedor de hosting 144.126.136.150
-        'PORT': '7495',           # Déjalo en blanco para usar el puerto predeterminado de MySQL
+        'HOST': 'containers-us-west-148.railway.app',  # O la dirección IP proporcionada por tu proveedor de hosting 144.126.136.150
+        'PORT': '6522',           # Déjalo en blanco para usar el puerto predeterminado de MySQL
     }
 }
 ''' DATABASES = {
