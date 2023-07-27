@@ -75,11 +75,11 @@ WSGI_APPLICATION = 'djproj.wsgi.application'
 
 # twilio
 
-DBPASSWORD = os.environ.get('DBPASSWORD')
-USERDB = os.environ.get('USERDB')
 TWILIO_PHONE_NUMBER = os.environ.get('TWILIO_PHONE_NUMBER')
 TWILIO_AUTH_TOKEN = os.environ.get('TWILIO_AUTH_TOKEN')
 TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID')
+
+
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
@@ -87,10 +87,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql', #'ENGINE': 'django.db.backends.mysql',
         'NAME': 'railway',
-        'USER': USERDB,
-        'PASSWORD':DBPASSWORD,
-        'HOST': 'containers-us-west-148.railway.app',  # O la dirección IP proporcionada por tu proveedor de hosting 144.126.136.150
-        'PORT': '6522',           # Déjalo en blanco para usar el puerto predeterminado de MySQL
+        'USER': 'postgres',
+        'PASSWORD':os.environ.get('DBPASSWORD'),
+        'HOST': 'containers-us-west-145.railway.app',  # O la dirección IP proporcionada por tu proveedor de hosting 144.126.136.150
+        'PORT': '6304',           # Déjalo en blanco para usar el puerto predeterminado de MySQL
     }
 }
 ''' DATABASES = {
