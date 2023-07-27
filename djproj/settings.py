@@ -83,7 +83,7 @@ TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID')
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-''' DATABASES = {
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', #'ENGINE': 'django.db.backends.mysql', mysql.connector.django
         'HOST': 'containers-us-west-133.railway.app',  # O la dirección IP proporcionada por tu proveedor de hosting 144.126.136.150
@@ -92,7 +92,7 @@ TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID')
         'USER': 'root',
         'PASSWORD':os.environ.get('DBPASSWORD'),
     }
-}  '''
+}  
 
 
 ''' DATABASES = {
@@ -118,12 +118,12 @@ TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID')
     }
 }  '''
 
-DATABASES = {
+''' DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
-}  
+}   '''
 
 
 
