@@ -62,6 +62,12 @@ class ProductForm(forms.ModelForm):
                 } 
 
         
+class TipoCambioForm(forms.ModelForm):
+    class Meta:
+        model = TipoCambio
+        fields = ['pais', 'tipo_cambio']
+
+#class ReporteIngresosForm(forms.ModelForm):
 class ReporteIngresosForm(forms.Form):
     # Obtener el año actual
     current_year = date.today().year
@@ -69,10 +75,12 @@ class ReporteIngresosForm(forms.Form):
     # Obtener los últimos registros de profesores
     profesores = Product.objects.annotate(last_date=Max('order__date_created')).order_by('-last_date')
 
-    profesores_choices = [(None, 'Todos los profesores')] + [(profesor.id, f"{profesor.name} - Último registro: {profesor.last_date}") for profesor in profesores]
+    #profesores_choices = [(None, 'Todos los profesores')] + [(profesor.id, f"{profesor.name} - Último registro: {profesor.last_date}") for profesor in profesores]
 
     # Opción de filtrado por profesor
-    profesor = forms.ChoiceField(choices=profesores_choices, label="Profesor", required=False)
+    #profesor = forms.ChoiceField(choices=profesores_choices, label="Profesor", required=False)
+    #Opción de filtrado por profesor utilizando ModelChoiceField
+    profesor = forms.ModelChoiceField(queryset=profesores, empty_label='Todos los profesores', label="Profesor", required=False)
 
     # Opción de filtrado por mes
     mes = forms.ChoiceField(choices=[(str(i), calendar.month_name[i]) for i in range(1, 13)], label="Mes", required=False)
@@ -86,8 +94,3 @@ class ReporteIngresosForm(forms.Form):
     # Campos de rango de fechas para la opción de fecha personalizada
     fecha_inicial = forms.DateField(widget=forms.DateInput(attrs={'class': 'form-control form-control-sm', 'type': 'date'}), label="Fecha inicial", required=False)
     fecha_final = forms.DateField(widget=forms.DateInput(attrs={'class': 'form-control form-control-sm', 'type': 'date'}), label="Fecha final", required=False)
-
-class TipoCambioForm(forms.ModelForm):
-    class Meta:
-        model = TipoCambio
-        fields = ['pais', 'tipo_cambio']

@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'django_filters'
 ]
 
+CSRF_TRUSTED_ORIGINS= ['https://admin.tuprofeestadistica.com']
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
