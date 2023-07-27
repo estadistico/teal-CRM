@@ -11,11 +11,15 @@ from decimal import Decimal, ROUND_DOWN
 from datetime import datetime, date
 from twilio.rest import Client
 from django.http import JsonResponse
-from .config import TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_PHONE_NUMBER
+#from .config import TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_PHONE_NUMBER
 from django.db.models import Max
 from django.db.models import F, Sum, DecimalField, ExpressionWrapper, Value, CharField, Subquery
 import calendar
+import os
 
+TWILIO_PHONE_NUMBER = os.environ.get('TWILIO_PHONE_NUMBER')
+TWILIO_AUTH_TOKEN = os.environ.get('TWILIO_AUTH_TOKEN')
+TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID')
 
 def enviar_mensaje_whatsapp(request, phone, tipo_servicio, fecha_entrega):
     account_sid = TWILIO_ACCOUNT_SID

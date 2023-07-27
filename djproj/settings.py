@@ -74,7 +74,12 @@ TEMPLATES = [
 WSGI_APPLICATION = 'djproj.wsgi.application'
 
 # twilio
-from crm.config import TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_PHONE_NUMBER,USERDB, DBPASSWORD
+
+DBPASSWORD = os.environ.get('DBPASSWORD')
+USERDB = os.environ.get('USERDB')
+TWILIO_PHONE_NUMBER = os.environ.get('TWILIO_PHONE_NUMBER')
+TWILIO_AUTH_TOKEN = os.environ.get('TWILIO_AUTH_TOKEN')
+TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID')
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
