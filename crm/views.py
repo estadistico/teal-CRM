@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Customer, Product, Order, Pago,TipoCambio
+#from .models import Customer, Product, Pago,TipoCambio
 from .filters import ProductFilter
 from .forms import Form, ProductForm, ContactForm, ReporteIngresosForm,TipoCambioForm
 from django.db.models import Count, Q, Sum

@@ -83,7 +83,31 @@ TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID')
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
+''' DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql', #'ENGINE': 'django.db.backends.mysql', mysql.connector.django
+        'HOST': 'containers-us-west-133.railway.app',  # O la dirección IP proporcionada por tu proveedor de hosting 144.126.136.150
+        'PORT': 6769,   # Déjalo en blanco para usar el puerto predeterminado de MySQL
+        'NAME': 'railway',
+        'USER': 'root',
+        'PASSWORD':os.environ.get('DBPASSWORD'),
+    }
+}  '''
+
+
+''' DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql', #'ENGINE': 'django.db.backends.mysql', mysql.connector.django
+        'HOST': 'tuprofeestadistica.com',  # O la dirección IP proporcionada por tu proveedor de hosting 144.126.136.150
+        'PORT': '',           # Déjalo en blanco para usar el puerto predeterminado de MySQL
+        'NAME': 'tuprofee_db_admin1',
+        'USER': 'tuprofee_cristianc',
+        'PASSWORD':os.environ.get('DBPASSWORD'),
+    }
+}   '''
+
+
+''' DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql', #'ENGINE': 'django.db.backends.mysql',
         'NAME': 'railway',
@@ -92,13 +116,14 @@ DATABASES = {
         'HOST': 'containers-us-west-145.railway.app',  # O la dirección IP proporcionada por tu proveedor de hosting 144.126.136.150
         'PORT': '6304',           # Déjalo en blanco para usar el puerto predeterminado de MySQL
     }
-}
-''' DATABASES = {
+}  '''
+
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
-} '''
+}  
 
 
 

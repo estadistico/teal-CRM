@@ -47,7 +47,7 @@ class Form(forms.ModelForm):
                      "cost":"Precio en USD",
                      "cost_profe":"Monto de ganancia al Profe USD",
                      "comision_profe": "(%) de ganancia al profe (si Monto anterior es vacio, del 1 al 100)",
-                } 
+                }  
        
 
 

@@ -7,7 +7,6 @@ class Pais(models.Model):
     def __str__(self):
         return self.name
 
-
 class Customer(models.Model):
     name = models.CharField(max_length=200, null=True)
     pais = models.ForeignKey(Pais, null=True, on_delete= models.CASCADE)
@@ -26,6 +25,15 @@ class Customer(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class TipoCambio(models.Model):
+    pais = models.ForeignKey(Pais, on_delete=models.CASCADE)
+    date_created = models.DateTimeField(auto_now_add=True, null=True)
+    tipo_cambio = models.DecimalField(max_digits=10, decimal_places=4)
+
+    class Meta:
+        unique_together = ('pais', 'date_created')
 
 class Product(models.Model):
     name=models.CharField(max_length=150,null=True)
@@ -48,15 +56,7 @@ class Product(models.Model):
     #discount = models.IntegerField(default=0)
     def __str__(self):
         return self.name
-
-class TipoCambio(models.Model):
-    pais = models.ForeignKey(Pais, on_delete=models.CASCADE)
-    date_created = models.DateTimeField(auto_now_add=True, null=True)
-    tipo_cambio = models.DecimalField(max_digits=10, decimal_places=4)
-
-    class Meta:
-        unique_together = ('pais', 'date_created')
-
+    
 class Pago(models.Model):
     profe = models.ForeignKey(Product, on_delete=models.CASCADE)
     monto = models.DecimalField(max_digits=10, decimal_places=2)
@@ -72,8 +72,7 @@ class Pago(models.Model):
 
     def __str__(self):
         return f'Pago de {self.monto} a {self.profe.name} en {self.fecha}'
-
-
+    
 class Order(models.Model):
     customer = models.ForeignKey(Customer, null=True, on_delete= models.CASCADE)
     tipo_servicio =  models.CharField(max_length=200, null=True, choices=(
@@ -107,3 +106,4 @@ class Order(models.Model):
             self.cost_profe = self.cost * self.comision_profe / 100
 
         super().save(*args, **kwargs)
+
