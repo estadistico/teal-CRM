@@ -90,8 +90,8 @@ class Order(models.Model):
     comision_profe=models.DecimalField(max_digits=10, decimal_places=4, null=True,blank=True)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
     fecha_entrega= models.DateTimeField(null=True)
-    hora_clase_inicial= models.TimeField(null=True, blank=True)
-    hora_clase_final= models.TimeField(null=True, blank=True)
+    #hora_clase_inicial= models.TimeField(null=True, blank=True)
+    #hora_clase_final= models.TimeField(null=True, blank=True)
     status = models.CharField(max_length=200, null=True, choices=(
         ('COBRADO','COBRADO'),
         ('PENDIENTE PAGO','PENDIENTE PAGO'),

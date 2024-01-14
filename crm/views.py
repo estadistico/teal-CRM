@@ -252,8 +252,8 @@ def create_order(request):
 
             # Construir el mensaje personalizado
             mensaje_personalizado = f'Hola {profe_asignado.name}, se confirmó el servicio de "{tipo_servicio}" para el cliente {form.cleaned_data["customer"].name} el día {fecha_entrega}.'
-            if tipo_servicio == 'clases' and form.cleaned_data['hora_clase_inicial']:
-                mensaje_personalizado += f' La hora de inicio es {form.cleaned_data["hora_clase_inicial"].strftime("%H:%M")}.'
+            if tipo_servicio == 'clases':
+                mensaje_personalizado += f' La hora de inicio es aaa.'
 
              # Llamar a la función enviar_mensaje_personalizado con los datos del formulario
             enviar_mensaje_personalizado(

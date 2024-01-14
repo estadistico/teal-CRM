@@ -35,14 +35,14 @@ class Form(forms.ModelForm):
                    "cost_profe": forms.NumberInput(attrs={'class': 'form-control form-control-sm'}),
                    "comision_profe": forms.NumberInput(attrs={'class': 'form-control form-control-sm','required': False}),
                    "fecha_entrega":forms.DateInput(attrs={'class': 'form-control form-control-sm', 'type': 'date'}),
-                   "hora_clase_inicial": forms.TimeInput(attrs={'class': 'form-control form-control-sm', 'type': 'time'}),
-                   "hora_clase_final": forms.TimeInput(attrs={'class': 'form-control form-control-sm', 'type': 'time'}),
+                   #"hora_clase_inicial": forms.TimeInput(attrs={'class': 'form-control form-control-sm', 'type': 'time'}),
+                   #"hora_clase_final": forms.TimeInput(attrs={'class': 'form-control form-control-sm', 'type': 'time'}),
                    "status": forms.Select(attrs={'class': "form-control form-control-sm"}),
 
                 } 
         labels={
                      "fecha_entrega": "Fecha de entrega",
-                     "customer":"Cliente",
+                     "customer":"Pais",
                      "cost_local": "Precio Moneda local",
                      "cost":"Precio en USD",
                      "cost_profe":"Monto de ganancia al Profe USD",
@@ -71,7 +71,7 @@ class TipoCambioForm(forms.ModelForm):
 class ReporteIngresosForm(forms.Form):
     # Obtener el año actual
     current_year = date.today().year
-
+    mes_actual = date.today().month
     # Obtener los últimos registros de profesores
     profesores = Product.objects.annotate(last_date=Max('order__date_created')).order_by('-last_date')
 
@@ -83,7 +83,7 @@ class ReporteIngresosForm(forms.Form):
     profesor = forms.ModelChoiceField(queryset=profesores, empty_label='Todos los profesores', label="Profesor", required=False)
 
     # Opción de filtrado por mes
-    mes = forms.ChoiceField(choices=[(str(i), calendar.month_name[i]) for i in range(1, 13)], label="Mes", required=False)
+    mes = forms.ChoiceField(choices=[(str(i), calendar.month_name[i]) for i in range(1, 13)], label="Mes", required=False,initial=mes_actual)
 
     # Opción de filtrado por año con valor predeterminado establecido al año actual
     year = forms.ChoiceField(choices=[(str(i), i) for i in range(current_year - 10, current_year + 1)], label="Año", required=False, initial=current_year)

@@ -60,8 +60,8 @@
     <div class="col-md-3 col-12 mt-3">
       <div class="card bg-info text-light">
         <div class="card-body">
-          <h5 class="card-title text-center align-middle">Ingresos Total</h5>
-          <h4 class="card-text text-center align-middle">{{ total_ingresos_mes_actual }}$</h4>
+          <h5 class="card-title text-center align-middle">Ingresos Total</h5> 
+          <h4 class="card-text text-center align-middle">{{ total_ingresos_mes_actual|floatformat:"1" }}$</h4>
         </div>
       </div>
     </div>
@@ -71,7 +71,7 @@
       <div class="card bg-info text-light">
         <div class="card-body">
           <h5 class="card-title text-center align-middle">Ingreso Tuprofe</h5>
-          <h4 class="card-text text-center align-middle">{{ total_ingresos_tuprofeestadistica }}$</h4>
+          <h4 class="card-text text-center align-middle">{{ total_ingresos_tuprofeestadistica|floatformat:"1" }}$</h4>
         </div>
       </div>
     </div>

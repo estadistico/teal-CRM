@@ -151,3 +151,35 @@
     color: #0062cc;
     background-color: #fff;
 }
+
+/* Media queries para pantallas con un ancho máximo de 768px */
+
+@media screen and (max-width: 768px) {
+
+  /* Ocultar columnas no esenciales en la tabla */
+  .my-table th:nth-child(2),
+  .my-table td:nth-child(2),
+  .my-table th:nth-child(3),
+  .my-table td:nth-child(3) {
+      display: none;
+  }
+
+  /* Hacer que la tabla sea desplazable horizontalmente */
+  .my-table {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+  }
+
+  /* Reducir el tamaño de los botones */
+  .btn {
+      padding: 5px 10px;
+      font-size: 12px;
+  }
+
+  /* Ajustar márgenes y rellenos del contenedor */
+  .container {
+      padding: 0;
+      margin: 0;
+  }
+}

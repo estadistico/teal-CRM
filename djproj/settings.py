@@ -43,7 +43,9 @@ INSTALLED_APPS = [
     'django_filters'
 ]
 
-CSRF_TRUSTED_ORIGINS= ['https://admin.tuprofeestadistica.com']
+CSRF_TRUSTED_ORIGINS= ['https://teal-crm-production.up.railway.app']
+#https://admin.tuprofeestadistica.com
+#https://teal-crm-production.up.railway.app/
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -107,10 +109,11 @@ TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID')
         'USER': 'tuprofee_cristianc',
         'PASSWORD':os.environ.get('DBPASSWORD'),
     }
-}   '''
+}   
+'''
+## BD de railway
 
-
-DATABASES = {
+''' DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql', #'ENGINE': 'django.db.backends.mysql',
         'NAME': 'railway',
@@ -120,13 +123,16 @@ DATABASES = {
         'PORT': '6304',           # Déjalo en blanco para usar el puerto predeterminado de MySQL
     }
 } 
+ '''
+ 
+ ## BD de local
 
-''' DATABASES = {
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
-}   '''
+}   
 
 
 

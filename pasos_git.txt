@@ -1,0 +1,4 @@
+git checkout -b bestresponsive1
+
+#valida si repos esta conectado a un github
+git remote -v

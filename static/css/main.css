@@ -1,5 +1,6 @@
+/* Estilos Generales */
 .main-body {
-    overflow-x: hidden;
+  overflow-x: hidden;
 }
 
 .orange-text {
@@ -10,6 +11,7 @@
   color: red;
 }
 
+/* Estilos para Tablas */
 .my-table {
   border-collapse: collapse;
   font-size: 0.9em;
@@ -17,15 +19,17 @@
   min-width: 400px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
+
 .my-table thead tr {
   background-color: #009879;
   color: #ffffff;
   text-align: left;
 }
-.my-table th,
-.my-table td {
+
+.my-table th, .my-table td {
   padding: 12px 15px;
 }
+
 .my-table tbody tr {
   border-bottom: 1px solid #dddddd;
 }
@@ -38,6 +42,7 @@
   border-bottom: 2px solid #009879;
 }
 
+/* Estilos para Sidebar */
 #sidebar-wrapper {
   z-index: 1000;
   position: fixed;
@@ -53,12 +58,6 @@
   transition: all 0.9s ease;
 }
 
-#page-content-wrapper {
-  width: 100%;
-  position: absolute;
-  padding: 15px;
-}
-
 .sidebar-nav {
   position: absolute;
   top: 0;
@@ -67,87 +66,161 @@
   padding: 0;
   list-style: none;
 }
+
 .sidebar-nav li {
   text-indent: 20px;
   line-height: 40px;
 }
+
 .sidebar-nav li a {
   display: block;
   text-decoration: none;
   color: #ffffff;
 }
+
 .sidebar-nav li a:hover {
   text-decoration: none;
   color: #fff;
   background: rgba(255, 255, 255, 0.2);
 }
-.sidebar-nav li a:active,
-.sidebar-nav li a:focus {
-  text-decoration: none;
-}
+
 .sidebar-nav > .sidebar-brand {
   height: 65px;
   font-size: 18px;
   line-height: 60px;
 }
+
 .sidebar-nav > .sidebar-brand a {
   color: #ffffff;
 }
+
 .sidebar-nav > .sidebar-brand a:hover {
   color: #43C6AC;
   background: none;
 }
+
+#page-content-wrapper {
+  width: 100%;
+  position: absolute;
+  padding: 15px;
+}
+
 @media(min-width:768px) {
   #wrapper {
-    padding-left: 250px;
+      padding-left: 250px;
   }
- 
+
   #sidebar-wrapper {
-    width: 250px;
+      width: 250px;
   }
 
   #page-content-wrapper {
-    padding: 20px;
-    position: relative;
+      padding: 20px;
+      position: relative;
   }
 }
 
-
-.login-body {background: rgb(255,255,255);
+/* Estilos para Login */
+.login-body {
   background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(67,198,172,0.2777485994397759) 100%);
 }
 
 .login-container {
-    margin-top: 10%;
-    justify-content: center;
+  margin-top: 10%;
+  justify-content: center;
 }
 
 .login-form {
-    padding: 5%;
-    border-radius:5px;
-    background: #43C6AC;
-    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+  padding: 5%;
+  border-radius:5px;
+  background: #43C6AC;
+  box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
 }
 
 .login-form h3 {
-    text-align: center;
-    color: #fff;
+  text-align: center;
+  color: #fff;
 }
 
 .login-container form {
-    padding: 10%;
+  padding: 10%;
 }
 
 .btnSubmit {
-    width: 50%;
-    border-radius: 1rem;
-    padding: 1.5%;
-    border: none;
-    cursor: pointer;
+  width
+  50%;
+  border-radius: 1rem;
+  padding: 1.5%;
+  border: none;
+  cursor: pointer;
 }
 
 .login-form .btnSubmit {
-    font-weight: 600;
-    color: #0062cc;
-    background-color: #fff;
+  font-weight: 600;
+  color: #0062cc;
+  background-color: #fff;
 }
+
+/* Estilos Responsivos para Dispositivos Móviles */
+@media screen and (max-width: 768px) {
+  /* Ocultar columnas no esenciales en la tabla */
+  .my-table th:nth-child(2),
+  .my-table td:nth-child(2),
+  .my-table th:nth-child(3),
+  .my-table td:nth-child(3) {
+      display: none;
+  }
+
+  /* Hacer que la tabla sea desplazable horizontalmente */
+  .my-table {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+  }
+
+  /* Reducir el tamaño de los botones */
+  .btn {
+      padding: 5px 10px;
+      font-size: 12px;
+  }
+
+  /* Ajustar márgenes y rellenos del contenedor */
+  .container {
+      padding: 0;
+      margin: 0;
+  }
+
+  /* Sidebar oculto por defecto y deslizable */
+  #sidebar-wrapper {
+      width: 250px;
+      position: fixed;
+      left: -250px; /* Inicia fuera de la pantalla */
+      transition: left 0.3s;
+  }
+
+  /* Mostrar sidebar cuando esté activo */
+  #wrapper.toggled #sidebar-wrapper {
+      left: 0;
+  }
+
+  /* Contenido principal ocupa toda la pantalla cuando el sidebar está oculto */
+  #page-content-wrapper {
+      margin-left: 0;
+  }
+
+  /* Botón de menú para dispositivos móviles */
+  #menu-toggle {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      padding: 5px 10px;
+      z-index: 1001;
+  }
+}
+
+/* Ajustes generales para tamaños de fuente y botones en móviles */
+.btn, .sidebar-nav li a, .sidebar-nav .lead {
+  font-size: 1.2rem; /* Ajustar tamaño de fuente */
+}
+
+/* Otros estilos específicos que quieras ajustar */
