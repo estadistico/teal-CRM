@@ -57,9 +57,19 @@
           <td>
             {% for ingreso in ingreso_local %}
               {% if ingreso.profe_asignado__name == profesor.name %}
+                 {% if ingreso.ingreso_local %}
+                  {{ ingreso.ingreso_local }}
+                 {% else %}
+                    0
+                 {% endif %}
+               {% endif %}
+              {% endfor %}
+
+            {% comment %} {% for ingreso in ingreso_local %}
+              {% if ingreso.profe_asignado__name == profesor.name %}
                 {{ ingreso.ingreso_local }}
               {% endif %}
-            {% endfor %}
+            {% endfor %} {% endcomment %}
           </td>
         </tr>
       {% endfor %}

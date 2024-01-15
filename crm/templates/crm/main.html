@@ -32,55 +32,6 @@
     <!-- SweetAlert2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.15/dist/sweetalert2.all.min.js"></script>
   
-    <style>
-        /* Agrega aquí tus estilos personalizados para el panel */
-        body {
-            background-color: #f8f9fa;
-        }
-        #wrapper {
-            overflow-x: hidden;
-        }
-        #sidebar-wrapper {
-            min-height: 100vh;
-            padding-top: 20px;
-            background-color: #15202B; /* Cambia el verde (#00765e) por azul oscuro (#15202B) */
-        }
-        .sidebar-nav .lead {
-            color: #ffffff; /* Cambia el color del texto a blanco para que contraste con el azul oscuro */
-            font-size: 1.5rem;
-        }
-        .sidebar-nav li {
-            padding: 15px;
-        }
-        .sidebar-nav li a {
-            color: #ffffff; /* Cambia el color del texto a blanco para que contraste con el azul oscuro */
-            font-size: 1.1rem;
-            text-decoration: none;
-        }
-        .sidebar-nav li a:hover {
-            color: #43C6AC; /* Cambia el color del texto al hacer hover para que contraste con el azul oscuro */
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-        .sidebar-nav li.sidebar-brand a:hover {
-            background: none;
-        }
-        .sidebar-nav li.active {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-        .sub-menu {
-            display: none; /* Oculta los submenús por defecto */
-        }
-        .active .sub-menu {
-            display: block; /* Muestra el submenú cuando el enlace padre está activo */
-        }
-        .page-content {
-            padding: 20px;
-            background-color: #ffffff;
-        }
-        /* Agrega estilos adicionales según tus preferencias */
-    </style>
-
-
     <script>
         // custom.js
       
@@ -154,9 +105,18 @@
           }
         });
       </script>
-    
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          document.getElementById('menu-toggle').addEventListener('click', function() {
+            document.getElementById('wrapper').classList.toggle('toggled');
+          });
+        });
+      </script>
+          
 </head>
 <body>
+    <button id="menu-toggle">☰</button> <!-- Botón para dispositivos móviles -->
+
     <div id="wrapper">
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
@@ -172,46 +132,61 @@
                 <li>
                     <a href="{% url 'orders' %}">Orders</a>
                 </li>
+               
                 <li class="has-submenu">
-                    <a href="javascript:void(0)">Reportes</a>
+                    <a href="javascript:void(0)" class="submenu-toggle">Reportes</a>
                     <ul class="sub-menu">
                         <li><a href="{% url 'nomina' %}">Nomina</a></li>
                         <li><a href="{% url 'ingresar_tipo_cambio' %}">Tipo de cambio</a></li>
                         <li><a href="{% url 'reporte_ingreso' %}">Reporte ingreso</a></li>
-                        <li><a href="{% url 'task' %}">Notas rapidas</a></li>
-                        
-                        <!-- Agrega más opciones de submenús si es necesario --> 
+                        <li><a href="{% url 'task' %}">Notas rápidas</a></li>
                     </ul>
-                </li>
-                <li>
+                    </li>
+
+                    <li>
                     <a href="{% url 'products' %}">Profesores</a>
-                </li>
-                <li>
+                    </li>
+                    <li>
                     <a href="{% url 'signout' %}">Salir</a>
-                </li>
-            </ul>
-        </div>
-        <!-- Contenido principal -->
-        <div id="page-content-wrapper" class="page-content">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12">
-                        {% block content %} {% endblock %}
+                    </li>
+                    </ul>
                     </div>
+                    <!-- /Sidebar -->
+                 <!-- Contenido principal -->
+    <div id="page-content-wrapper" class="page-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    {% block content %}
+                    <!-- Aquí va el contenido dinámico de tus páginas -->
+                    {% endblock %}
                 </div>
             </div>
         </div>
     </div>
+    <!-- /Contenido principal -->
+</div>
 
-    <!-- Scripts de Bootstrap y otros si es necesario -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script>
-        // Agrega el comportamiento para mostrar/ocultar los submenús
-        $(document).ready(function () {
-            $('.has-submenu').click(function () {
-                $(this).toggleClass('active');
+<!-- Scripts de Bootstrap y otros si es necesario -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Encuentra todos los elementos que pueden alternar submenús
+        var submenuToggles = document.querySelectorAll('.submenu-toggle');
+        
+        // Añade un evento de clic a cada uno
+        submenuToggles.forEach(function(toggle) {
+            toggle.addEventListener('click', function() {
+                // Este es el elemento `li` padre de `.submenu-toggle`
+                var parentLi = this.parentElement;
+                
+                // Alternar la visibilidad del submenú
+                parentLi.classList.toggle('active');
             });
         });
-    </script>
+    });
+    
+  </script>
+
 </body>
 </html>

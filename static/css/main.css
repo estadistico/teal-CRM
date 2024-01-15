@@ -1,220 +1,95 @@
 /* Estilos Generales */
-.main-body {
-  overflow-x: hidden;
+body {
+  background-color: #f8f9fa;
 }
 
-.orange-text {
-  color: orange;
+.sub-menu {
+  display: none;
 }
 
-.red-text {
-  color: red;
+.has-submenu.active .sub-menu {
+  display: block;
 }
 
-/* Estilos para Tablas */
-.my-table {
-  border-collapse: collapse;
-  font-size: 0.9em;
-  font-family: sans-serif;
-  min-width: 400px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-}
-
-.my-table thead tr {
-  background-color: #009879;
-  color: #ffffff;
-  text-align: left;
-}
-
-.my-table th, .my-table td {
-  padding: 12px 15px;
-}
-
-.my-table tbody tr {
-  border-bottom: 1px solid #dddddd;
-}
-
-.my-table tbody tr:nth-of-type(even) {
-  background-color: #f3f3f3;
-}
-
-.my-table tbody tr:last-of-type {
-  border-bottom: 2px solid #009879;
-}
-
-/* Estilos para Sidebar */
+/* Estilos para el Sidebar */
 #sidebar-wrapper {
-  z-index: 1000;
+  min-height: 100vh;
+  padding-top: 20px;
+  background-color: #15202B; /* Azul oscuro */
+  width: 250px;
   position: fixed;
-  left: 250px;
-  width: 0;
-  height: 100%;
-  margin-left: -250px;
-  overflow-y: auto;
-  background: #00765e;
-  -webkit-transition: all 0.9s ease;
-  -moz-transition: all 0.9s ease;
-  -o-transition: all 0.9s ease;
-  transition: all 0.9s ease;
+  left: -250px; /* Inicia fuera de la pantalla */
+  transition: left 0.3s;
+  z-index: 1000;
 }
 
-.sidebar-nav {
-  position: absolute;
-  top: 0;
-  width: 250px;
+#sidebar-wrapper .sidebar-nav {
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.sidebar-nav li {
+#sidebar-wrapper .sidebar-nav li {
+  padding: 15px;
   text-indent: 20px;
-  line-height: 40px;
 }
 
-.sidebar-nav li a {
-  display: block;
+#sidebar-wrapper .sidebar-nav li a {
+  color: #ffffff; /* Texto blanco */
+  font-size: 1.1rem;
   text-decoration: none;
-  color: #ffffff;
 }
 
-.sidebar-nav li a:hover {
-  text-decoration: none;
-  color: #fff;
-  background: rgba(255, 255, 255, 0.2);
+#sidebar-wrapper .sidebar-nav li a:hover {
+  color: #43C6AC; /* Cambia el color al hacer hover */
+  background-color: rgba(255, 255, 255, 0.2);
 }
 
-.sidebar-nav > .sidebar-brand {
-  height: 65px;
-  font-size: 18px;
-  line-height: 60px;
+/* Mostrar sidebar cuando esté activo */
+#wrapper.toggled #sidebar-wrapper {
+  left: 0;
 }
 
-.sidebar-nav > .sidebar-brand a {
-  color: #ffffff;
-}
-
-.sidebar-nav > .sidebar-brand a:hover {
-  color: #43C6AC;
-  background: none;
-}
-
+/* Contenido Principal */
 #page-content-wrapper {
   width: 100%;
-  position: absolute;
-  padding: 15px;
+  padding: 20px;
+  margin-left: 0;
 }
 
-@media(min-width:768px) {
-  #wrapper {
-      padding-left: 250px;
-  }
-
-  #sidebar-wrapper {
-      width: 250px;
-  }
-
-  #page-content-wrapper {
-      padding: 20px;
-      position: relative;
-  }
-}
-
-/* Estilos para Login */
-.login-body {
-  background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(67,198,172,0.2777485994397759) 100%);
-}
-
-.login-container {
-  margin-top: 10%;
-  justify-content: center;
-}
-
-.login-form {
-  padding: 5%;
-  border-radius:5px;
-  background: #43C6AC;
-  box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
-}
-
-.login-form h3 {
-  text-align: center;
-  color: #fff;
-}
-
-.login-container form {
-  padding: 10%;
-}
-
-.btnSubmit {
-  width
-  50%;
-  border-radius: 1rem;
-  padding: 1.5%;
+/* Estilos para Botón de Menú en Dispositivos Móviles */
+#menu-toggle {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  padding: 5px 10px;
+  z-index: 1001;
+  background-color: #15202B;
+  color: white;
   border: none;
+  border-radius: 5px;
   cursor: pointer;
 }
 
-.login-form .btnSubmit {
-  font-weight: 600;
-  color: #0062cc;
-  background-color: #fff;
-}
-
-/* Estilos Responsivos para Dispositivos Móviles */
 @media screen and (max-width: 768px) {
-  /* Ocultar columnas no esenciales en la tabla */
-  .my-table th:nth-child(2),
-  .my-table td:nth-child(2),
-  .my-table th:nth-child(3),
-  .my-table td:nth-child(3) {
-      display: none;
-  }
-
-  /* Hacer que la tabla sea desplazable horizontalmente */
-  .my-table {
-      display: block;
-      overflow-x: auto;
-      white-space: nowrap;
-  }
-
-  /* Reducir el tamaño de los botones */
-  .btn {
-      padding: 5px 10px;
-      font-size: 12px;
-  }
-
-  /* Ajustar márgenes y rellenos del contenedor */
-  .container {
-      padding: 0;
-      margin: 0;
-  }
-
-  /* Sidebar oculto por defecto y deslizable */
+  /* Sidebar oculto por defecto y deslizable en móviles */
   #sidebar-wrapper {
-      width: 250px;
-      position: fixed;
-      left: -250px; /* Inicia fuera de la pantalla */
-      transition: left 0.3s;
+    width: 250px;
+    position: fixed;
+    left: -250px;
+    transition: left 0.3s;
   }
 
-  /* Mostrar sidebar cuando esté activo */
-  #wrapper.toggled #sidebar-wrapper {
-      left: 0;
+  /* Ajustes para Contenido Principal cuando el Sidebar está activo */
+  #wrapper.toggled #page-content-wrapper {
+    margin-left: 250px;
   }
 
-  /* Contenido principal ocupa toda la pantalla cuando el sidebar está oculto */
-  #page-content-wrapper {
-      margin-left: 0;
-  }
-
-  /* Botón de menú para dispositivos móviles */
+  /* Ajustes para el botón de menú en móviles */
   #menu-toggle {
-      position: fixed;
-      top: 10px;
-      left: 10px;
-      padding: 5px 10px;
-      z-index: 1001;
+    display: block;
+    position: fixed; /* z-index solo funciona en elementos posicionados */
+    z-index: 1001;  /* Esto colocaría el botón de menú encima de otros elementos */ 
   }
 }
 
@@ -223,4 +98,15 @@
   font-size: 1.2rem; /* Ajustar tamaño de fuente */
 }
 
-/* Otros estilos específicos que quieras ajustar */
+/* Otros estilos específicos según tus necesidades */
+
+#sidebar-wrapper {
+  position: fixed;
+  z-index: 1000; /* Asegúrate de que el sidebar tenga un z-index menor que el botón de menú */
+}
+
+.submenu-toggle {
+  display: block;
+  padding: 5px 10px; /* Ajusta estos valores según sea necesario */
+  cursor: pointer;
+}

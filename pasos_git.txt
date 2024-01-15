@@ -2,3 +2,5 @@ git checkout -b bestresponsive1
 
 #valida si repos esta conectado a un github
 git remote -v
+pagar nomina mensaje comentado
+en order al registrar msj comentado

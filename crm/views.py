@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Customer, Product, Order, Pago,TipoCambio
+from .models import Customer, Product, Order, Pago,TipoCambio, Pais
 #from .models import Customer, Product, Pago,TipoCambio
 from .filters import ProductFilter
 from .forms import Form, ProductForm, ContactForm, ReporteIngresosForm,TipoCambioForm
@@ -70,16 +70,32 @@ def dashboard(request):
     total_orders_mes_actual = Order.objects.filter(date_created__year=today.year, date_created__month=today.month).count()
 
     # Calcular el total de ingresos durante el mes actual
-    total_ingresos_mes_actual = Order.objects.filter(date_created__year=today.year, date_created__month=today.month).aggregate(Sum('cost'))['cost__sum'] or 0
+    #total_ingresos_mes_actual = Order.objects.filter(date_created__year=today.year, date_created__month=today.month).aggregate(Sum('cost'))['cost__sum'] or 0
+    total_ingresos_mes_actual = Order.objects.filter(
+        date_created__year=today.year, 
+        date_created__month=today.month,
+        fecha_entrega__lte=today
+    ).exclude(
+        status='PENDIENTE PAGO'
+    ).aggregate(Sum('cost'))['cost__sum'] or 0
 
     # Calcular el total de ingreso de "Tuprofeestadistica" (cost - cost_profe)
-    #total_ingresos_tuprofeestadistica = Order.objects.filter(date_created__year=today.year, date_created__month=today.month).aggregate(Sum('cost_profe'))['cost_profe__sum'] or 0
-    # Calcular el total de ingreso de "Tuprofeestadistica" (cost - cost_profe)
+    
+    # total_ingresos_tuprofeestadistica = Order.objects.filter(
+    # date_created__year=today.year,
+    # date_created__month=today.month,
+    # profe_asignado__name='Tuprofeestadistica'
+    # ).aggregate(total_ingresos_tuprofeestadistica=Sum(F('cost') - F('cost_profe')))['total_ingresos_tuprofeestadistica'] or 0
+    # Calcula el total de ingresos de "Tuprofeestadistica"
     total_ingresos_tuprofeestadistica = Order.objects.filter(
-    date_created__year=today.year,
-    date_created__month=today.month,
-    profe_asignado__name='Tuprofeestadistica'
-    ).aggregate(total_ingresos_tuprofeestadistica=Sum(F('cost') - F('cost_profe')))['total_ingresos_tuprofeestadistica'] or 0
+        date_created__year=today.year,
+        date_created__month=today.month,
+        fecha_entrega__lte=today
+    ).exclude(
+        status='PENDIENTE PAGO'
+    ).aggregate(
+        total_ingresos_tuprofeestadistica=Sum(F('cost') - F('cost_profe'))
+    )['total_ingresos_tuprofeestadistica'] or 0
 
     # Calcular el total de órdenes por entregar hoy y en fechas posteriores
     total_orders_por_entregar = Order.objects.filter(fecha_entrega__gte=today).count()
@@ -256,11 +272,11 @@ def create_order(request):
                 mensaje_personalizado += f' La hora de inicio es aaa.'
 
              # Llamar a la función enviar_mensaje_personalizado con los datos del formulario
-            enviar_mensaje_personalizado(
+            ''' enviar_mensaje_personalizado(
                 request,
                 phone=profe_asignado.phone,
                 mensaje_personalizado=mensaje_personalizado
-            )
+            ) '''
 
             return redirect('/orders')
     context = {'form': form}
@@ -363,7 +379,7 @@ def pagar_nomina(request, profe_id, fecha_inicial, fecha_final):
     mensaje_personalizado = f'Hola {profe.name}, se realizó un pago de {total:.2f}$ para las tareas/clases entre el {fecha_inicial} y el {fecha_final}. El monto en Bs a recibir es {monto_local:.2f}, (tipo de cambio: {tipo_cambio}). Gracias por tu trabajo.'
 
     # Llamar a la función enviar_mensaje_personalizado con los datos del mensaje
-    enviar_mensaje_personalizado(request, phone=profe.phone, mensaje_personalizado=mensaje_personalizado)
+    #enviar_mensaje_personalizado(request, phone=profe.phone, mensaje_personalizado=mensaje_personalizado)
 
     # Redirigir al usuario a la página de la nómina
     return redirect('nomina')
@@ -377,6 +393,28 @@ def reporte_ingresos(request):
             year = form.cleaned_data['year']
             profesor_id = form.cleaned_data['profesor']
 
+            # Obtén el mes actual
+            mes_actual = timezone.now().month
+
+            # Si el método es GET, establece el mes actual como valor inicial
+            if request.method == 'GET':
+                form = ReporteIngresosForm(initial={'mes': mes_actual})
+            else:
+                form = ReporteIngresosForm(request.POST)
+
+            # Obtén el último tipo de cambio para Venezuela
+            ultimo_tipo_cambio = TipoCambio.objects.filter(pais__name='Venezuela').order_by('-date_created').first()
+            if ultimo_tipo_cambio:
+                tipo_cambio_ve = ultimo_tipo_cambio.tipo_cambio
+            else:
+                tipo_cambio_ve = 1  # Valor por defecto en caso de que no haya registros
+
+            ''' if ultimo_tipo_cambio:
+                tipo_cambio_ve = ultimo_tipo_cambio.tipo_cambio
+            else:
+                tipo_cambio_ve = 40  # Valor por defecto en caso de que no haya registros '''
+
+
             # Filtrar las órdenes por mes y año
             orders = Order.objects.filter(se_le_pago=True, fecha_entrega__month=mes, fecha_entrega__year=year)
 
@@ -386,10 +424,20 @@ def reporte_ingresos(request):
 
             # Realizar la agregación para obtener el ingreso total en USD y en moneda local por profesor
             ingreso_usd = orders.values('profe_asignado__name').annotate(ingreso_usd=Sum('cost_profe')).order_by('-ingreso_usd')
-            ingreso_local = orders.values('profe_asignado__name').annotate(
+            ''' ingreso_local = orders.values('profe_asignado__name').annotate(
                 ingreso_local=Sum(ExpressionWrapper(F('cost_profe') * F('profe_asignado__pais__tipocambio__tipo_cambio'),
                                        output_field=DecimalField(max_digits=10, decimal_places=2)))
-            ).order_by('-ingreso_local')
+            ).order_by('-ingreso_local') '''
+            # Calcula ingreso_local como ya lo estás haciendo
+            ingreso_local = orders.values('profe_asignado__name').annotate(
+            ingreso_local=Sum(ExpressionWrapper(
+                F('cost_profe') * tipo_cambio_ve,
+                output_field=DecimalField(max_digits=10, decimal_places=2)
+            ))).order_by('-ingreso_local')
+
+            # Convierte los valores de ingreso_local a cadenas
+            for ingreso in ingreso_local:
+                ingreso['ingreso_local'] = str(ingreso['ingreso_local'])
 
             # Obtener los nombres de los profesores
             profesores = Product.objects.all()
