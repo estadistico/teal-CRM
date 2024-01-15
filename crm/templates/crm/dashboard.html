@@ -36,45 +36,47 @@
     </div>
   </div>
   <div class="row">
-    <!-- Tarjeta: Total de Orders durante el mes actual -->
-    <div class="col-md-3 col-12 mt-3">
-      <div class="card bg-primary text-light">
-        <div class="card-body">
-          <h5 class="card-title text-center align-middle">Total tareas</h5>
-          <h4 class="card-text text-center align-middle">{{ total_orders_mes_actual }}</h4>
-        </div>
-      </div>
+   <!-- Tarjeta: Total de Orders durante el mes actual -->
+<div class="col-sm-6 col-lg-3 mt-3">
+  <div class="card bg-primary text-light">
+    <div class="card-body">
+      <h5 class="card-title text-center align-middle">Total tareas</h5>
+      <h4 class="card-text text-center align-middle">{{ total_orders_mes_actual }}</h4>
     </div>
+  </div>
+</div>
 
-    <!-- Tarjeta: Total de Orders por entregar hoy y fecha posterior -->
-    <div class="col-md-3 col-12 mt-3">
-      <div class="card bg-primary text-light">
-        <div class="card-body">
-          <h5 class="card-title text-center align-middle">Tareas por entregar</h5>
-          <h4 class="card-text text-center align-middle">{{ total_orders_por_entregar }}</h4>
-        </div>
-      </div>
+<!-- Tarjeta: Total de Orders por entregar hoy y fecha posterior -->
+<div class="col-sm-6 col-lg-3 mt-3">
+  <div class="card bg-primary text-light">
+    <div class="card-body">
+      <h5 class="card-title text-center align-middle">Tareas por entregar</h5>
+      <h4 class="card-text text-center align-middle">{{ total_orders_por_entregar }}</h4>
     </div>
+  </div>
+</div>
 
-    <!-- Tarjeta: Total de ingresos durante el mes actual -->
-    <div class="col-md-3 col-12 mt-3">
-      <div class="card bg-info text-light">
-        <div class="card-body">
-          <h5 class="card-title text-center align-middle">Ingresos Total</h5> 
-          <h4 class="card-text text-center align-middle">{{ total_ingresos_mes_actual|floatformat:"1" }}$</h4>
-        </div>
-      </div>
+<!-- Tarjeta: Total de ingresos durante el mes actual -->
+<div class="col-sm-6 col-lg-3 mt-3">
+  <div class="card bg-info text-light">
+    <div class="card-body">
+      <h5 class="card-title text-center align-middle">Ingresos Total</h5> 
+      <h4 class="card-text text-center align-middle">{{ total_ingresos_mes_actual|floatformat:"1" }}$</h4>
     </div>
+  </div>
+</div>
 
-    <!-- Tarjeta: Total de ingreso de "Tuprofeestadistica" -->
-    <div class="col-md-3 col-12 mt-3">
-      <div class="card bg-info text-light">
-        <div class="card-body">
-          <h5 class="card-title text-center align-middle">Ingreso Tuprofe</h5>
-          <h4 class="card-text text-center align-middle">{{ total_ingresos_tuprofeestadistica|floatformat:"1" }}$</h4>
-        </div>
-      </div>
+<!-- Tarjeta: Total de ingreso de "Tuprofeestadistica" -->
+<div class="col-sm-6 col-lg-3 mt-3">
+  <div class="card bg-info text-light">
+    <div class="card-body">
+      <h5 class="card-title text-center align-middle">Ingreso Tuprofe</h5>
+      <h4 class="card-text text-center align-middle">{{ total_ingresos_tuprofeestadistica|floatformat:"1" }}$</h4>
     </div>
+  </div>
+</div>
+
+
   </div>
 
   <div class="text-center justify-content-md-center mt-3">
