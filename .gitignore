@@ -10,6 +10,7 @@
 config.py  # o .env u otros archivos de configuración
 crm/config.py
 djproj/config.py
+pasos_git.txt
 # Distribution / packaging
 .Python
 env/
