@@ -1,0 +1,113 @@
+/* Estilos Generales */
+body {
+  background-color: #f8f9fa;
+}
+
+.sub-menu {
+  display: none;
+}
+
+
+.has-submenu.active .sub-menu {
+  display: block;
+}
+
+/* Estilos para el Sidebar */
+#sidebar-wrapper {
+  min-height: 100vh;
+  padding-top: 20px;
+  background-color: #15202B; /* Azul oscuro */
+  width: 250px;
+  position: fixed;
+  left: -250px; /* Inicia fuera de la pantalla */
+  transition: left 0.3s;
+  z-index: 1000;
+}
+
+#sidebar-wrapper .sidebar-nav {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+#sidebar-wrapper .sidebar-nav li {
+  padding: 15px;
+  text-indent: 20px;
+}
+
+#sidebar-wrapper .sidebar-nav li a {
+  color: #ffffff; /* Texto blanco */
+  font-size: 1.1rem;
+  text-decoration: none;
+}
+
+#sidebar-wrapper .sidebar-nav li a:hover {
+  color: #43C6AC; /* Cambia el color al hacer hover */
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Mostrar sidebar cuando esté activo */
+#wrapper.toggled #sidebar-wrapper {
+  left: 0;
+}
+
+/* Contenido Principal */
+#page-content-wrapper {
+  width: 100%;
+  padding: 20px;
+  margin-left: 0;
+}
+
+/* Estilos para Botón de Menú en Dispositivos Móviles */
+#menu-toggle {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  padding: 5px 10px;
+  z-index: 1001;
+  background-color: #15202B;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+  /* Sidebar oculto por defecto y deslizable en móviles */
+  #sidebar-wrapper {
+    width: 250px;
+    position: fixed;
+    left: -250px;
+    transition: left 0.3s;
+  }
+
+  /* Ajustes para Contenido Principal cuando el Sidebar está activo */
+  #wrapper.toggled #page-content-wrapper {
+    margin-left: 250px;
+  }
+
+  /* Ajustes para el botón de menú en móviles */
+  #menu-toggle {
+    display: block;
+    position: fixed; /* z-index solo funciona en elementos posicionados */
+    z-index: 1001;  /* Esto colocaría el botón de menú encima de otros elementos */ 
+  }
+}
+
+/* Ajustes generales para tamaños de fuente y botones en móviles */
+.btn, .sidebar-nav li a, .sidebar-nav .lead {
+  font-size: 1.2rem; /* Ajustar tamaño de fuente */
+}
+
+/* Otros estilos específicos según tus necesidades */
+
+#sidebar-wrapper {
+  position: fixed;
+  z-index: 1000; /* Asegúrate de que el sidebar tenga un z-index menor que el botón de menú */
+}
+
+.submenu-toggle {
+  display: block;
+  padding: 5px 10px; /* Ajusta estos valores según sea necesario */
+  cursor: pointer;
+}
