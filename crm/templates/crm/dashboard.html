@@ -108,7 +108,9 @@
             <td></td>
             <td>{{o.status}}</td>
             <td>
-              <button class="btn btn-success btn-send-whatsapp" data-phone="{{ o.profe_asignado.phone }}" data-tipo-servicio="{{ o.tipo_servicio }}" data-fecha-entrega="{{ o.fecha_entrega|date:"d-M" }}">Enviar WhatsApp</button>
+              {% comment %} <button class="btn btn-success btn-send-whatsapp" data-phone="{{ o.profe_asignado.phone }}" data-tipo-servicio="{{ o.tipo_servicio }}" data-fecha-entrega="{{ o.fecha_entrega|date:"d-M" }}">Enviar WhatsApp</button> {% endcomment %}
+              <button class="btn btn-success btn-send-whatsapp d-md-inline-block w-md-auto w-100" data-phone="{{ o.profe_asignado.phone }}" data-tipo-servicio="{{ o.tipo_servicio }}" data-fecha-entrega="{{ o.fecha_entrega|date:"d-M" }}">Enviar WhatsApp</button>
+
             </td>
             
           </tr>

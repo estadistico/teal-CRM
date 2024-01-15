@@ -4,3 +4,7 @@ git checkout -b bestresponsive1
 git remote -v
 pagar nomina mensaje comentado
 en order al registrar msj comentado
+
+python manage.py collectstatic
+btn btn-success btn-send-whatsapp d-md-inline-block w-md-auto w-100 
+botones entre ""
