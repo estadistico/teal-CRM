@@ -24,7 +24,8 @@ TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 SECRET_KEY = 'g*#m%ohk#f3$5sof44udwbg@me#y$vz&vl^i@kfk44qz@kht&@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
+#True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -113,7 +114,7 @@ TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID')
 '''
 ## BD de railway
 
-''' DATABASES = {
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql', #'ENGINE': 'django.db.backends.mysql',
         'NAME': 'railway',
@@ -123,17 +124,16 @@ TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID')
         'PORT': '6304',           # Déjalo en blanco para usar el puerto predeterminado de MySQL
     }
 } 
- ''' 
  
  ## BD de local
 
-DATABASES = {
+''' DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }   
-
+ '''
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -172,7 +172,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-#STATIC_ROOT= os.path.join(BASE_DIR,"staticfiles")
+STATIC_ROOT= os.path.join(BASE_DIR,"staticfiles")
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
 LOGIN_URL='/signin'
